@@ -18,5 +18,6 @@ ALL 			=	{
 						BOUNTY,
 						FURION,
 						SLARK,
-						WIND
+						WIND,
+						"npc_evolve_trail"
 					}

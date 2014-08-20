@@ -214,24 +214,148 @@
 
 		// This will make the spell heal a certain amount of life
 		// TOOD: Tweak the numbers
+		// Look in the "custom_spells.lua" for the modifier
+		//"AbilitySpecial"
+		//{
+		//	"01"
+		//	{
+		//		"var_type"				"FIELD_FLOAT"
+		//		"duration"				"1.0"
+		//	}
+		//	"02"
+		//	{
+		//		"var_type"				"FIELD_FLOAT"
+		//		"damage_absorb"			"1000"
+		//	}
+		//	"03"
+		//	{
+		//		"var_type"				"FIELD_INTEGER"
+		//		"radius"				"0"
+		//	}
+		//}
+	}
+
+
+	//=================================================================================================================
+	// AOE Stealth
+	//=================================================================================================================
+	"aoe_stealth"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_MECHANICAL"
+		"AbilityTextureName"            "aoe_stealth"
+		"BaseClass"						"ability_datadriven"	
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target"	// Have to define the Targets
+				{
+					"Center"  				"CASTER"   							// The center where is casted the spell
+					"Radius" 				"%application_radius"				// The radius for searching the targets
+					"Teams" 				"DOTA_UNIT_TARGET_TEAM_FRIENDLY"  	// The spell will target only the friendly targets
+					"Types" 				"DOTA_UNIT_TARGET_ALL" 				// The spell will target any type of unit
+				}
+				"ModifierName"		"modifier_smoke_of_deceit"					// Smoke Of Deceit (item)
+				"Duration"			"%duration"
+			}
+		}
 		"AbilitySpecial"
 		{
-			"01"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"duration"				"1.0"
-			}
-			"02"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"damage_absorb"			"1000"
-			}
-			"03"
+			"01"	// Radius of the smoke
 			{
 				"var_type"				"FIELD_INTEGER"
-				"radius"				"0"
+				"application_radius"	"1000"
+			}
+			"02"	// Radius of breaking the smoke
+			{
+				"var_type"				"FIELD_INTEGER"
+				"visibility_radius"		"500"
+			}
+			"03"	// Bonus movement speed
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_movement_speed"	"0"
+			}
+			"04"	// The duration of the smoke
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration"				"60.0"
 			}
 		}
 	}
+
+	"summon_scout"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName"            "scouting_bird"
+		"BaseClass"						"ability_datadriven"	
+		"OnSpellStart"
+		{
+			"SpawnUnit"
+			{
+				"UnitName"			"npc_evolve_creature_scout_bird"
+				"UnitCount"			"1"
+				"SpawnRadius"		"100"
+				//"Target"
+				//{
+				//	"Center"	"CASTER"
+				//	"Radius"	"%radius"
+				//	"Teams"		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+				//	"Types"		"DOTA_UNIT_TARGET_HERO"
+				//	"Flags"		"DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS"
+				//}
+				//"Duration"		"%duration"
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"	// Radius of the smoke
+			{
+				"var_type"				"FIELD_INTEGER"
+				"application_radius"	"1000"
+			}
+			"02"	// Radius of breaking the smoke
+			{
+				"var_type"				"FIELD_INTEGER"
+				"visibility_radius"		"500"
+			}
+			"03"	// Bonus movement speed
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_movement_speed"	"0"
+			}
+			"04"	// The duration of the smoke
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration"				"60.0"
+			}
+		}
+	}
+
+
+	"leave_trail_test"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName"            "aoe_stealth"
+		"BaseClass"						"ability_datadriven"	
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
+	            "Function"                              "LeaveTrailTest"
+			}
+		}
+	}
+
+
 
 }
