@@ -1,0 +1,6 @@
+"AddonInfo"
+{
+     "maps"			"map1"
+     "IsPlayable"	"1"
+     "addontitle"	"Evolve"
+}

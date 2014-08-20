@@ -1,0 +1,36 @@
+Sentry Wards (Blockers)
+Observer Wards (Wards)
+Scouting Bird
+Battle Boar/Bear
+
+
+#1-Medic and Buffing:
+Heal target (channel for single heal) [DONE. TODO: Tweak numbers]
+Shield target (like windrunner ult channel) [DONE. TODO: Tweak numbers]
+Shield aoe (standing channel)
+Aoe regen (jugg ward and low)
+Heal shot (skillshot) [DONE. TODO: Graphical effect]
+Health boost (aoe + HP)
+
+#2-Damage and Tank:
+Damage (gyro barrage)
+Taunt
+Decrease damage for more health
+Increase damage for less health
+NEED MORE
+
+#3-Trapping and Slowing:
+Slow skillshot (high and charge) and Slow aoe (low and channel)
+Attack speed boost aoe (low) and Attack speed boost target (high)
+Aoe battle arena with destroyable beacon
+NEED MORE
+
+#4-Tracking, Stealth and Debuff:
+Stealth in aoe (works like smoke) [modifier_invisible]
+Miss chance (target, small duration) and miss chance (progressivly more as channeled) [modifier_item_talisman_of_evasion bonus_evasion integer]
+Silence (small duration) [modifier_silence duration(?) float]
+Analyse tracks (This is pretty difficult to do, gotta look)
+Flare (vision) [dummy ward]
+Mines that give vision when triggered  [same as above]
+Tracking shot (provides vision of beast for short amount of time if hit) [projectile with modifier_bounty_hunter_track duration float]
+
