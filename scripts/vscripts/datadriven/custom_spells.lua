@@ -51,7 +51,7 @@ function LeaveTrailTest(keys)
 			local location = caster:GetAbsOrigin() 	--The location of the player in that moment
 
 			--Creating a unit which will be neutral (so will not give vision)
-			local dummy_unit = CreateUnitByName("npc_evolve_trail", location, false, nil, nil, TEAM_DIRE)
+			local dummy_unit = CreateUnitByName("npc_evolve_trail", location, false, nil, nil, DOTA_TEAM_NEUTRALS)
 			--print("[TRAILS] Placed trail number "..trailIndex)
 			trails[trailIndex] = dummy_unit	--Saving the entity for optimization purposes
 
@@ -61,10 +61,10 @@ function LeaveTrailTest(keys)
 				trailIndex = 1
 			end
 			local modifiers = { 
-			"modifier_invulnerable", 		--The unit will be invulnerable
-			"modifier_riki_permanent_invisibility", 			--The unit will be invisile
-			"modifier_phased",				--The unit won't collide with others
-			"MODIFIER_STATE_UNSELECTABLE"	--The unit won't be selectable
+			"modifier_invulnerable", 						--The unit will be invulnerable
+			"modifier_riki_permanent_invisibility", 		--The unit will be invisile
+			"modifier_phased",								--The unit won't collide with others
+			"MODIFIER_STATE_UNSELECTABLE"					--The unit won't be selectable
 			}
 			for i=1, table.getn(modifiers) do
 				dummy_unit:AddNewModifier(dummy_unit, nil, modifiers[i], nil)

@@ -237,6 +237,53 @@
 
 
 	//=================================================================================================================
+	// Reveal Trails
+	//=================================================================================================================
+	"reveal_trail"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		//"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_CUSTOM"
+		//"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_ALL"
+		"AbilityTextureName"            "reveal_trail"
+		"BaseClass"						"ability_datadriven"	
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target"	// Have to define the Targets
+				{
+					"Center"  				"CASTER"   							// The center where is casted the spell
+					"Radius" 				"%radius"							// The radius for searching the targets
+					"Teams" 				"DOTA_UNIT_TARGET_TEAM_BOTH"  		// The spell will target only the friendly targets
+					"Types" 				"DOTA_UNIT_TARGET_ALL" 				// The spell will target any type of unit
+				}
+				"ModifierName"		"modifier_item_dustofappearance"			// Dust of Appearance(item)
+				"Duration"			"%duration"
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"duration"				"12"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"				"1050"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"movespeed"				"0"
+			}
+		}
+	}
+
+	//=================================================================================================================
 	// AOE Stealth
 	//=================================================================================================================
 	"aoe_stealth"
@@ -288,6 +335,9 @@
 		}
 	}
 
+	//=================================================================================================================
+	// Summon Scout
+	//=================================================================================================================
 	"summon_scout"
 	{
 		// General
@@ -338,7 +388,9 @@
 		}
 	}
 
-
+	//=================================================================================================================
+	// Leave Trail Test
+	//=================================================================================================================
 	"leave_trail_test"
 	{
 		// General

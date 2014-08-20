@@ -43,7 +43,7 @@
 		"AbilityLayout"				"5"
 		"Ability1"					"aoe_stealth"								// Ability 1
 		"Ability2"					"summon_scout"								// Ability 2
-		"Ability3"					"empty_spell"								// Ability 3
+		"Ability3"					"reveal_trail"								// Ability 3
 		"Ability4"					"empty_spell"								// Ability 4
 		"Ability5"					"empty_spell"								// Ability 5
 		//"VisionNighttimeRange"	"1800"										// Range of vision at night time.
