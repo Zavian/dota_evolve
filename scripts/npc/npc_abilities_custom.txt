@@ -16,6 +16,39 @@
 	}
 
 	//=================================================================================================================
+	// Trigger Mine
+	//=================================================================================================================
+	"trigger_mine"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName"            "trigger_mine"
+		"BaseClass"						"ability_datadriven"
+		"MaxLevel"						"1"
+
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastPoint"				"0"
+		
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"0.0"
+		
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0"
+		"OnSpellStart"
+		{
+			"RunScript"
+    		{
+				"ScriptFile"            "scripts/vscripts/datadriven/custom_spells.lua"
+        		"Function"              "MineTriggered"
+    		}
+		}
+	}
+
+	//=================================================================================================================
 	// Heal Target
 	//=================================================================================================================
 	"heal_target"
@@ -67,16 +100,16 @@
 	}
 
 	//=================================================================================================================
-	// Heal Shot
+	// Tracking Shot
 	// TODO: Graphical effect
 	//=================================================================================================================
-	"heal_shot"
+	"tracking_shot"
  	{
         // General
         //-------------------------------------------------------------------------------------------------------------
         "BaseClass"      		 "ability_datadriven"
         "AbilityBehavior"        "DOTA_ABILITY_BEHAVIOR_POINT"
-        "AbilityTextureName"     "heal_shot"
+        "AbilityTextureName"     "tracking_shot"
  
         // Casting
         //-------------------------------------------------------------------------------------------------------------
@@ -96,11 +129,11 @@
         "AbilityManaCost"        "0"
  
         "precache"
-        {
-            "soundfile"				"scripts/game_sounds/ability_zombie_rage.txt"
-			"particlefile"			"particles/units/heroes/hero_batrider.pcf"
-			"particlefile" 			"particles/units/heroes/hero_silencer.pcf"
-        }
+		{
+			"particle"							"particles/units/heroes/hero_batrider/batrider_flamebreak.vpcf"
+			"particle_folder"					"particles/test_particle"
+      		"soundfile"							"soundevents/game_sounds_heroes/game_sounds_abaddon.vsndevts"
+		}
 
         "OnSpellStart"
         {
@@ -112,36 +145,143 @@
 
 	        "LinearProjectile"
 	        {
-	        	"Target"						"POINT"
-	            "EffectName"                    "batrider_flamebreak"
-	            "MoveSpeed"                     "1200"
-	            "StartPosition"                 "attach_attack1"
-	            "FixedDistance"                 "500"
-	            "StartRadius"                   "50"
-	            "EndRadius"                     "50"
-	            "EffectName"					"mirana_spell_arrow"
-	            "TargetTeams"                   "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-	            "TargetTypes"                   "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-	            "HasFrontalCone"                "1"
-	            "ProvidesVision"                "1"
-	            "VisionRadius"                  "300"
+		        	"EffectName"			"particles/units/heroes/hero_batrider/batrider_flamebreak.vpcf"
+					"MoveSpeed"				"1200"
+					//"StartPosition"	  		"attach_attack1"
+	        		"FixedDistance"   		"1200"
+					"StartRadius"			"50"
+					"EndRadius"				"50"
+					"TargetTeams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+					"TargetTypes"			"DOTA_UNIT_TARGET_HERO"
+					"HasFrontalCone"		"0"
+					"ProvidesVision"		"0"
+					"VisionRadius"			"0"
 	        }
     	}
 
 	    "OnProjectileHitUnit"
 	    {
-	    	"DeleteOnHit"		"false"
+	    	"DeleteOnHit"		"1"
+	        "ApplyModifier"
+	        {
+	        	"Target" 			"TARGET"
+	        	"ModifierName"		"modifier_bounty_hunter_track"
+	        	"Duration"			"%duration"
+	        }     
+	    }
+
+	    // Special
+	    //-------------------------------------------------------------------------------------------------------------
+	    "AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"aura_radius"			"900 900 900"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_move_speed_pct"	"0 0 0"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_gold_radius"		"0 0 0"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_gold_self"		"0 0 0"
+			}
+			"05"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_gold"			"0 0 0"
+			}
+			"06"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration"				"60.0 60.0 60.0"
+			}
+			"07"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"cast_range_tooltip"	"1200"
+			}
+		}
+	}
+
+	//=================================================================================================================
+	// Land Mine
+	// TODO: Graphical effect
+	//=================================================================================================================
+	"land_mine"
+ 	{
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"      		 "ability_datadriven"
+        "AbilityBehavior"        "DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityTextureName"     "land_mine"
+ 
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"       "200"
+        "AbilityCastPoint"       "0.3 0.3 0.3 0.3"     
+ 
+        // Time
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"        "5"
+ 
+        // Damage.
+        //-------------------------------------------------------------------------------------------------------------
+        //"AbilityDamage"  "500"
+ 
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"        "0"
+ 
+        "precache"
+        {
+            "soundfile"				"scripts/game_sounds/ability_zombie_rage.txt"
+			"particle"				"particles/units/heroes/hero_puck/puck_illusory_orb.vpcf"
+			"particlefile" 			"particles/units/heroes/hero_silencer.pcf"
+        }
+
+        "OnSpellStart"
+        {
+	        //"FireSound"
+	        //{
+	        //        "EffectName"            "Ability.PudgeHookCast"
+	        //        "Target"                        "CASTER"
+	        //}	                   
+
+	        "SpawnUnit"
+	        {
+	        	"UnitName"				"npc_evolve_land_mine"
+	        	"Target" 				"POINT"
+	        	"Duration"				"120"
+	        	"UnitCount"				"1"
+	        	"OnSpawn"
+	        	{
+	        		"RunScript"
+	        		{
+						"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
+	            		"Function"                              "MineLanded"
+	        		}
+	        	}
+	        }
+    	}
+
+	    "OnProjectileHitUnit"
+	    {
+	    	"DeleteOnHit"		"0"
 	        "Heal"
 	        {
 	        	"Type"          "DAMAGE_TYPE_MAGICAL"
 	            "HealAmount"    "500"
 	            "Target" 		"TARGET"
-	        }
-	        "RunScript"
-	        {
-			    "ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
-	            "Function"                              "CastingHeal"
-	        }      
+	        }    
 	    }
 
 	    // Special
@@ -177,13 +317,137 @@
 	}
 
 	//=================================================================================================================
+	// Heal Shot
+	// TODO: Graphical effect
+	//=================================================================================================================
+	   //"LinearProjectile"
+	        //{
+	        //	"Target"						"POINT"
+	        //    "EffectName"                    "particles/units/heroes/hero_puck/puck_illusory_orb.vpcf"
+	        //    "MoveSpeed"                     "1200"
+	        //    "StartPosition"                 "attach_attack1"
+	        //    "FixedDistance"                 "500"
+	        //    "StartRadius"                   "50"
+	        //    "EndRadius"                     "50"
+	        //    "EffectName"					"mirana_spell_arrow"
+	        //    "TargetTeams"                   "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+	        //    "TargetTypes"                   "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	        //    "HasFrontalCone"                "1"
+	        //    "ProvidesVision"                "1"
+	        //    "VisionRadius"                  "300"
+	        //}
+	"heal_shot"
+ 	{
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"      		 "ability_datadriven"
+        "AbilityBehavior"        "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+        "AbilityTextureName"     "heal_shot"
+        "AbilityChannelTime"	 "15"
+ 
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"       "1200"
+        "AbilityCastPoint"       "0.3 0.3 0.3 0.3"     
+ 
+        // Time
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"        "0"
+ 
+        // Damage.
+        //-------------------------------------------------------------------------------------------------------------
+        //"AbilityDamage"  "500"
+ 
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"        "0"
+ 
+        "precache"
+        {
+            "soundfile"				"scripts/game_sounds/ability_zombie_rage.txt"
+			"particle"				"particles/units/heroes/hero_puck/puck_illusory_orb.vpcf"
+			"particlefile" 			"particles/units/heroes/hero_silencer.pcf"
+        }
+
+        "OnSpellStart"
+		{
+			"RunScript" 
+			{
+				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
+	            "Function"                              "StartedHealShot"
+			}
+		}
+
+		"OnChannelInterrupted"
+		{
+
+		   	"LinearProjectile"
+	       	{
+	       		"Target"						"POINT"
+	           	"EffectName"                    "particles/units/heroes/hero_puck/puck_illusory_orb.vpcf"
+	           	"MoveSpeed"                     "1200"
+	           	"StartPosition"                 "attach_attack1"
+	           	"FixedDistance"                 "500"
+	           	"StartRadius"                   "50"
+	           	"EndRadius"                     "50"
+	           	"EffectName"					"mirana_spell_arrow"
+	           	"TargetTeams"                   "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+	           	"TargetTypes"                   "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	           	"HasFrontalCone"                "1"
+	           	"ProvidesVision"                "1"
+	           	"VisionRadius"                  "300"
+	       	}
+			"RunScript" 
+			{
+				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
+	            "Function"                              "InterruptedHealShot"
+			}
+		}
+
+		"OnChannelSucceeded"
+		{
+			"LinearProjectile"
+	       	{
+	       		"Target"						"POINT"
+	           	"EffectName"                    "particles/units/heroes/hero_puck/puck_illusory_orb.vpcf"
+	           	"MoveSpeed"                     "1200"
+	           	"StartPosition"                 "attach_attack1"
+	           	"FixedDistance"                 "500"
+	           	"StartRadius"                   "50"
+	           	"EndRadius"                     "50"
+	           	"EffectName"					"mirana_spell_arrow"
+	           	"TargetTeams"                   "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+	           	"TargetTypes"                   "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	           	"HasFrontalCone"                "1"
+	           	"ProvidesVision"                "1"
+	           	"VisionRadius"                  "300"
+	       	}
+			"RunScript" 
+			{
+				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
+	            "Function"                              "SuccededHealShot"
+			}
+		}
+
+	    "OnProjectileHitUnit"
+	    {
+	    	"DeleteOnHit"		"0"
+	        "RunScript" 
+			{
+				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
+	            "Function"                              "HitHealShot"
+			} 
+	    }
+	}
+
+	//=================================================================================================================
 	// Shield Target
 	//=================================================================================================================
 	"shield_target"
 	{
 		// General
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
 		"AbilityChannelTime"			"3"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_MECHANICAL"
@@ -333,60 +597,7 @@
 				"duration"				"60.0"
 			}
 		}
-	}
-
-	//=================================================================================================================
-	// Summon Scout
-	//=================================================================================================================
-	"summon_scout"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityTextureName"            "scouting_bird"
-		"BaseClass"						"ability_datadriven"	
-		"OnSpellStart"
-		{
-			"SpawnUnit"
-			{
-				"UnitName"			"npc_evolve_creature_scout_bird"
-				"UnitCount"			"1"
-				"SpawnRadius"		"100"
-				//"Target"
-				//{
-				//	"Center"	"CASTER"
-				//	"Radius"	"%radius"
-				//	"Teams"		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-				//	"Types"		"DOTA_UNIT_TARGET_HERO"
-				//	"Flags"		"DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS"
-				//}
-				//"Duration"		"%duration"
-			}
-		}
-		"AbilitySpecial"
-		{
-			"01"	// Radius of the smoke
-			{
-				"var_type"				"FIELD_INTEGER"
-				"application_radius"	"1000"
-			}
-			"02"	// Radius of breaking the smoke
-			{
-				"var_type"				"FIELD_INTEGER"
-				"visibility_radius"		"500"
-			}
-			"03"	// Bonus movement speed
-			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_movement_speed"	"0"
-			}
-			"04"	// The duration of the smoke
-			{
-				"var_type"				"FIELD_FLOAT"
-				"duration"				"60.0"
-			}
-		}
-	}
+	}	
 
 	//=================================================================================================================
 	// Leave Trail Test
@@ -407,7 +618,4 @@
 			}
 		}
 	}
-
-
-
 }

@@ -19,5 +19,6 @@ ALL 			=	{
 						FURION,
 						SLARK,
 						WIND,
-						"npc_evolve_trail"
+						"npc_evolve_trail",
+						"npc_evolve_land_mine"
 					}

@@ -1,3 +1,5 @@
+
+
 function ChannelingShield(keys)
 	-- Event fired when I channel the shield
 	local caster = keys.caster
@@ -73,4 +75,85 @@ function LeaveTrailTest(keys)
 		end
 	)
 end
+
+function MineLanded(keys)
+	local target = keys.target
+	spell = target:FindAbilityByName("trigger_mine")
+	if(spell) then
+		spell:SetLevel(1)
+	end
+
+end
+
+function MineTriggered(keys)
+	local caster = keys.caster
+	local casterName = caster:GetName()
+	local visionDuration = 10
+	if (string.match(casterName, "bounty")) then
+		--Gotta do the trigger mine from the hero
+	else
+		local location = caster:GetAbsOrigin()
+		local dummy_unit = CreateUnitByName("npc_evolve_vision", location, false, nil, nil, caster:GetTeam())
+		local modifiers = { 
+		"modifier_invulnerable", 						--The unit will be invulnerable
+		"modifier_riki_permanent_invisibility", 		--The unit will be invisile
+		"modifier_phased",								--The unit won't collide with others
+		"MODIFIER_STATE_UNSELECTABLE"					--The unit won't be selectable
+		}
+		for i=1, table.getn(modifiers) do
+			dummy_unit:AddNewModifier(dummy_unit, nil, modifiers[i], nil)
+		end
+		caster:Destroy()
+		
+		--Here I created a vision unit, which will give us vision for a certain time
+	  	Timers:CreateTimer({
+		  	endTime = visionDuration,
+		  	callback = function()
+		  	  dummy_unit:Destroy()
+		  	end
+	  	})
+	end
+end
+
+local maxHeal = 500
+local maxCast = 15
+local savingTime = 0.0
+local healShotSucceded = false
+local timeSpent 
+local percentage
+local healPercentaged
+function StartedHealShot(keys)
+	savingTime = Time()
+	print(savingTime)
+end
+
+function InterruptedHealShot(keys)
+	healShotSucceded = false
+	caster = keys.caster
+	ability = keys.ability
+	local currentTime = Time()	
+	timeSpent = math.floor(currentTime - savingTime)
+	percentage = math.floor((timeSpent*100) / maxCast)
+	healPercentaged = (percentage * maxHeal) / 100
+	print("TimeSpent: "..timeSpent.."\nPercentage: "..percentage.."\nHealPercentage: "..healPercentaged)
+end
+
+function SuccededHealShot(keys)
+	healShotSucceded = true
+	print("banana")
+end
+
+function HitHealShot(keys)
+	target  = keys.target
+	if(healShotSucceded) then
+		target:Heal(500, nil)
+	else
+		target:Heal(healPercentaged, nil)
+		print(healPercentaged)
+	end
+end
+
+
+
+
 
