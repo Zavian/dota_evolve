@@ -49,6 +49,141 @@
 	}
 
 	//=================================================================================================================
+	// Slow Powershot
+	//=================================================================================================================
+	"power_shot"
+	{
+		// General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"      		 "ability_datadriven"
+        "AbilityBehavior"        "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+        "AbilityTextureName"     "power_shot"
+        "AbilityChannelTime"	 "15"
+ 
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"       "1200"
+        "AbilityCastPoint"       "0.3 0.3 0.3 0.3"     
+ 
+        // Time
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"        "0"
+ 
+ 
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"        "0"
+ 
+        "precache"
+        {
+            "soundfile"				"scripts/game_sounds/ability_zombie_rage.txt"
+			"particle"				"particles/units/heroes/hero_windrunner/windrunner_powershot.vpcf"
+			"particlefile" 			"particles/units/heroes/hero_silencer.pcf"
+        }
+
+        "OnSpellStart"
+		{
+			"RunScript" 
+			{
+				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
+	            "Function"                              "StartedPowerShot"
+			}
+		}
+
+		"OnChannelInterrupted"
+		{
+
+		   	"LinearProjectile"
+	       	{
+	       		"Target"						"POINT"
+	           	"EffectName"                    "articles/units/heroes/hero_windrunner/windrunner_powershot.vpcf"
+	           	"MoveSpeed"                     "1200"
+	           	"StartPosition"                 "attach_attack1"
+	           	"FixedDistance"                 "500"
+	           	"StartRadius"                   "50"
+	           	"EndRadius"                     "50"
+	           	"TargetTeams"                   "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+	           	"TargetTypes"                   "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	           	"HasFrontalCone"                "1"
+	           	"ProvidesVision"                "1"
+	           	"VisionRadius"                  "300"
+	       	}
+			"RunScript" 
+			{
+				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
+	            "Function"                              "InterruptedPowerShot"
+			}
+		}
+
+		"OnChannelSucceeded"
+		{
+			"LinearProjectile"
+	       	{
+	       		"Target"						"POINT"
+	           	"EffectName"                    "articles/units/heroes/hero_windrunner/windrunner_powershot.vpcf"
+	           	"MoveSpeed"                     "1200"
+	           	"StartPosition"                 "attach_attack1"
+	           	"FixedDistance"                 "1000"
+	           	"StartRadius"                   "50"
+	           	"EndRadius"                     "50"
+	           	"TargetTeams"                   "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+	           	"TargetTypes"                   "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	           	"HasFrontalCone"                "1"
+	           	"ProvidesVision"                "1"
+	           	"VisionRadius"                  "300"
+	       	}
+			"RunScript" 
+			{
+				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
+	            "Function"                              "SuccededPowerShot"
+			}
+		}
+
+	    "OnProjectileHitUnit"
+	    {
+	    	"DeleteOnHit"		"0"
+	        "RunScript" 
+			{
+				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
+	            "Function"                              "HitPowerShot"
+			} 
+	    }
+	}
+
+	//=================================================================================================================
+	// Trigger Mine
+	//=================================================================================================================
+	"trigger_mine"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName"            "trigger_mine"
+		"BaseClass"						"ability_datadriven"
+		"MaxLevel"						"1"
+
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastPoint"				"0"
+		
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"0.0"
+		
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0"
+		"OnSpellStart"
+		{
+			"RunScript"
+    		{
+				"ScriptFile"            "scripts/vscripts/datadriven/custom_spells.lua"
+        		"Function"              "MineTriggered"
+    		}
+		}
+	}
+
+	//=================================================================================================================
 	// Heal Target
 	//=================================================================================================================
 	"heal_target"
@@ -318,24 +453,7 @@
 
 	//=================================================================================================================
 	// Heal Shot
-	// TODO: Graphical effect
 	//=================================================================================================================
-	   //"LinearProjectile"
-	        //{
-	        //	"Target"						"POINT"
-	        //    "EffectName"                    "particles/units/heroes/hero_puck/puck_illusory_orb.vpcf"
-	        //    "MoveSpeed"                     "1200"
-	        //    "StartPosition"                 "attach_attack1"
-	        //    "FixedDistance"                 "500"
-	        //    "StartRadius"                   "50"
-	        //    "EndRadius"                     "50"
-	        //    "EffectName"					"mirana_spell_arrow"
-	        //    "TargetTeams"                   "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-	        //    "TargetTypes"                   "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-	        //    "HasFrontalCone"                "1"
-	        //    "ProvidesVision"                "1"
-	        //    "VisionRadius"                  "300"
-	        //}
 	"heal_shot"
  	{
         // General
@@ -390,7 +508,6 @@
 	           	"FixedDistance"                 "500"
 	           	"StartRadius"                   "50"
 	           	"EndRadius"                     "50"
-	           	"EffectName"					"mirana_spell_arrow"
 	           	"TargetTeams"                   "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 	           	"TargetTypes"                   "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 	           	"HasFrontalCone"                "1"
@@ -412,10 +529,9 @@
 	           	"EffectName"                    "particles/units/heroes/hero_puck/puck_illusory_orb.vpcf"
 	           	"MoveSpeed"                     "1200"
 	           	"StartPosition"                 "attach_attack1"
-	           	"FixedDistance"                 "500"
+	           	"FixedDistance"                 "1000"
 	           	"StartRadius"                   "50"
 	           	"EndRadius"                     "50"
-	           	"EffectName"					"mirana_spell_arrow"
 	           	"TargetTeams"                   "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 	           	"TargetTypes"                   "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 	           	"HasFrontalCone"                "1"

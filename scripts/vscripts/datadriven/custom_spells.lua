@@ -115,43 +115,80 @@ function MineTriggered(keys)
 	end
 end
 
-local maxHeal = 500
-local maxCast = 15
+
+local shotSucceded = false
 local savingTime = 0.0
-local healShotSucceded = false
 local timeSpent 
-local percentage
-local healPercentaged
+
+--HealShot Zone
+-------------------------------------------------------------------------------------------------------------
+local toHeal = 0
+local maxHeal = 500
+local HealShot_maxCast = 15
+
 function StartedHealShot(keys)
 	savingTime = Time()
 	print(savingTime)
 end
 
 function InterruptedHealShot(keys)
-	healShotSucceded = false
 	caster = keys.caster
 	ability = keys.ability
 	local currentTime = Time()	
 	timeSpent = math.floor(currentTime - savingTime)
-	percentage = math.floor((timeSpent*100) / maxCast)
-	healPercentaged = (percentage * maxHeal) / 100
-	print("TimeSpent: "..timeSpent.."\nPercentage: "..percentage.."\nHealPercentage: "..healPercentaged)
+	local percentage = math.floor((timeSpent*100) / HealShot_maxCast)
+	toHeal = (percentage * maxHeal) / 100
 end
 
 function SuccededHealShot(keys)
-	healShotSucceded = true
-	print("banana")
+	toHeal = maxHeal
 end
 
 function HitHealShot(keys)
-	target  = keys.target
-	if(healShotSucceded) then
-		target:Heal(500, nil)
-	else
-		target:Heal(healPercentaged, nil)
-		print(healPercentaged)
-	end
+	target  = keys.target	
+	target:Heal(toHeal, nil)
 end
+
+--End HealShot
+-------------------------------------------------------------------------------------------------------------
+
+--PowerShot Zone
+-------------------------------------------------------------------------------------------------------------
+local toDamage = 0
+local maxDamage = 500
+local PowerShot_maxCast = 15
+
+function StartedPowerShot(keys)
+	savingTime = Time()
+	print(savingTime)
+end
+
+function InterruptedPowerShot(keys)
+	caster = keys.caster
+	ability = keys.ability
+	local currentTime = Time()	
+	timeSpent = math.floor(currentTime - savingTime)
+	local percentage = math.floor((timeSpent*100) / HealShot_maxCast)
+	toDamage = (percentage * maxHeal) / 100
+end
+
+function SuccededHPowerShot(keys)
+	toDamage = maxDamage
+end
+
+function HitPowerShot(keys)
+	target  = keys.target
+	local damageTable = {
+		victim = target,
+		attacker = keys:caster,
+		damage = toDamage,
+		damage_type = DAMAGE_TYPE_MAGICAL
+	}
+	target:ApplyDamage(damageTable)
+end
+
+--End PowerShot
+-------------------------------------------------------------------------------------------------------------
 
 
 

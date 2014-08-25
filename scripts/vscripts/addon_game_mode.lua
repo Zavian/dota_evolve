@@ -1,4 +1,3 @@
--- Generated from template
 require('evolve')
 require('util')
 require('timers') --Thank you BMD for the awesome library
@@ -21,6 +20,7 @@ function Precache( context )
 		PrecacheUnitByNameSync(ALL[i], context)
 		--print(ALL[i])
 	end
+	print("[EVOLVE] Precached everything")
 
 
 end
