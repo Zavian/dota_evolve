@@ -33,7 +33,11 @@ end
 
 function Evolve:InitGameMode()
 	print( "[EVOLVE] Game loaded" )
+	print("")
 	GameRules:GetGameModeEntity():SetThink( "OnThink", self, "GlobalThink", 2 )
+	
+	ListenToGameEvent('dota_player_learned_ability', Dynamic_Wrap(Evolve, 'OnAbilityLearned'), self)
+	print("[BRAIN] Looking for learning ppl")
 end
 
 -- Evaluate the state of the game
@@ -44,4 +48,13 @@ function Evolve:OnThink()
 		return nil
 	end
 	return 1
+end
+
+function Evolve:OnAbilityLearned(keys)
+	--local abilityName = keys.abilityname
+	--local hscript = EntIndexToHScript(keys.player)
+	--local PlayerID = keys.player
+	--print(hscript:GetName())
+	--print(abilityName)
+	--print("--------------")
 end

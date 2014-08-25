@@ -180,16 +180,80 @@ function HitPowerShot(keys)
 	target  = keys.target
 	local damageTable = {
 		victim = target,
-		attacker = keys:caster,
+		attacker = keys.caster,
 		damage = toDamage,
 		damage_type = DAMAGE_TYPE_MAGICAL
 	}
-	target:ApplyDamage(damageTable)
+	ApplyDamage(damageTable)
 end
 
 --End PowerShot
 -------------------------------------------------------------------------------------------------------------
 
+-- +x -> Move Right
+-- -x -> Move Left
+function PlaceArena(keys)
+	print("Placing arena")
+	local center = keys.target
+	local centerLocation = center:GetAbsOrigin()
+	--print("X: "..centerLocation.x)
+	--print("Y: "..centerLocation.y)
+	
+	local boundLocation = centerLocation
+	local cog = {}
+	local cogDuration = 5
+	local cogNumber = 30
+
+	local modifiers = { 
+		"modifier_invulnerable", 						--The unit will be invulnerable
+		"MODIFIER_STATE_UNSELECTABLE"					--The unit won't be selectable
+	}	
+	local x = centerLocation.x
+	local y = centerLocation.y
+	local r = 400
+
+	--Here I create a circle with these properties:
+	--x and y are the center location of the circle
+	--r it's the radius of the circle
+	--cogNumber is how many cogs I want in the circle
+	--cogDuration is how much will last the cog (see the summon_arena in npc_abilities)
+	--cog it's just the array which will contain all the cogs that I'm going to create	
+	for i = 1, cogNumber do
+	  local angle = i * math.pi / (cogNumber/2)
+	  local ptx, pty = x + r * math.cos( angle ), y + r * math.sin( angle )
+	  boundLocation.x = ptx
+	  boundLocation.y = pty
+	  cog[i] = CreateUnitByName("npc_evolve_arena_bound", boundLocation, false, nil, nil, TEAM_RADIANT)
+	  for j=1,table.getn(modifiers) do
+	  	cog[i]:AddNewModifier(cog[i], nil, modifiers[j], nil)
+	  end
+	end
+
+	Timers:CreateTimer({
+		  	endTime = cogDuration,
+		  	callback = function()
+		  		for i=1,table.getn(cog) do
+			  		cog[i]:Destroy()
+			  	end		  	
+		  	end
+  	})
+
+	--Location = 0°
+	--boundLocation.x = boundLocation.x + 350
+	--cog[1] = CreateUnitByName("npc_evolve_arena_bound", boundLocation, false, nil, nil, TEAM_DIRE)
+
+	--Location = 90°
+	--boundLocation.x = boundLocation.x - 350
+	--boundLocation.y = boundLocation.y + 350
+	--cog[2] = CreateUnitByName("npc_evolve_arena_bound", boundLocation, false, nil, nil, TEAM_DIRE)
+
+	--Location = 45°
+	--boundLocation.x = (( cog[1]:GetAbsOrigin().x + cog[2]:GetAbsOrigin().x ) / 2) + 100
+	--boundLocation.y = (( cog[1]:GetAbsOrigin().y + cog[2]:GetAbsOrigin().y ) / 2) + 100
+	--cog[3] = CreateUnitByName("npc_evolve_arena_bound", boundLocation, false, nil, nil, TEAM_DIRE)
+
+
+end
 
 
 

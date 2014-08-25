@@ -76,8 +76,7 @@
  
         "precache"
         {
-            "soundfile"				"scripts/game_sounds/ability_zombie_rage.txt"
-			"particle"				"particles/units/heroes/hero_windrunner/windrunner_powershot.vpcf"
+			"particle"				"particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
 			"particlefile" 			"particles/units/heroes/hero_silencer.pcf"
         }
 
@@ -96,7 +95,7 @@
 		   	"LinearProjectile"
 	       	{
 	       		"Target"						"POINT"
-	           	"EffectName"                    "articles/units/heroes/hero_windrunner/windrunner_powershot.vpcf"
+	           	"EffectName"                    "particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
 	           	"MoveSpeed"                     "1200"
 	           	"StartPosition"                 "attach_attack1"
 	           	"FixedDistance"                 "500"
@@ -120,7 +119,7 @@
 			"LinearProjectile"
 	       	{
 	       		"Target"						"POINT"
-	           	"EffectName"                    "articles/units/heroes/hero_windrunner/windrunner_powershot.vpcf"
+	           	"EffectName"                    "particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
 	           	"MoveSpeed"                     "1200"
 	           	"StartPosition"                 "attach_attack1"
 	           	"FixedDistance"                 "1000"
@@ -378,7 +377,6 @@
  
         "precache"
         {
-            "soundfile"				"scripts/game_sounds/ability_zombie_rage.txt"
 			"particle"				"particles/units/heroes/hero_puck/puck_illusory_orb.vpcf"
 			"particlefile" 			"particles/units/heroes/hero_silencer.pcf"
         }
@@ -482,7 +480,6 @@
  
         "precache"
         {
-            "soundfile"				"scripts/game_sounds/ability_zombie_rage.txt"
 			"particle"				"particles/units/heroes/hero_puck/puck_illusory_orb.vpcf"
 			"particlefile" 			"particles/units/heroes/hero_silencer.pcf"
         }
@@ -733,5 +730,109 @@
 	            "Function"                              "LeaveTrailTest"
 			}
 		}
+	}
+
+	//=================================================================================================================
+	// Use Net
+	//=================================================================================================================
+	"use_net"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"FightRecapLevel"				"1"
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"use_net"
+		
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"500 750 1000 1250"
+		"AbilityCastPoint"				"0.3"
+		
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"20 16 12 8"
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"100"
+	}
+
+	//=================================================================================================================
+	// Arena
+	//=================================================================================================================
+	"summon_arena"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"FightRecapLevel"				"1"
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"summon_arena"
+		
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"500 750 1000 1250"
+		"AbilityCastPoint"				"0.3"
+		
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"0"
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0"
+
+		"OnSpellStart"
+		{
+			"SpawnUnit"
+			{
+				"UnitName"			"npc_evolve_arena_center"
+				"UnitCount"			"1"
+				"Target"			"POINT"
+				"Duration"			"5"
+				"OnSpawn"
+				{
+					"RunScript" 
+					{
+						"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
+			            "Function"                              "PlaceArena"
+					}
+				}
+			}
+			
+		}
+	}
+
+	/=================================================================================================================
+	// Summon Animal Companion
+	//=================================================================================================================
+	"summon_animal_companion"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName"            "animal_companion"
+		"BaseClass"						"ability_datadriven"	
+		"OnSpellStart"
+		{
+			"SpawnUnit"
+			{
+				"UnitName"			"npc_evolve_creature_animal_companion"
+				"UnitCount"			"1"
+				"SpawnRadius"		"100"
+				//"Target"
+				//{
+				//	"Center"	"CASTER"
+				//	"Radius"	"%radius"
+				//	"Teams"		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+				//	"Types"		"DOTA_UNIT_TARGET_HERO"
+				//	"Flags"		"DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS"
+				//}
+				//"Duration"		"%duration"
+			}
+		}
+
+		
 	}
 }
