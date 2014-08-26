@@ -238,23 +238,51 @@ function PlaceArena(keys)
 		  	end
   	})
 
-	--Location = 0°
-	--boundLocation.x = boundLocation.x + 350
-	--cog[1] = CreateUnitByName("npc_evolve_arena_bound", boundLocation, false, nil, nil, TEAM_DIRE)
-
-	--Location = 90°
-	--boundLocation.x = boundLocation.x - 350
-	--boundLocation.y = boundLocation.y + 350
-	--cog[2] = CreateUnitByName("npc_evolve_arena_bound", boundLocation, false, nil, nil, TEAM_DIRE)
-
-	--Location = 45°
-	--boundLocation.x = (( cog[1]:GetAbsOrigin().x + cog[2]:GetAbsOrigin().x ) / 2) + 100
-	--boundLocation.y = (( cog[1]:GetAbsOrigin().y + cog[2]:GetAbsOrigin().y ) / 2) + 100
-	--cog[3] = CreateUnitByName("npc_evolve_arena_bound", boundLocation, false, nil, nil, TEAM_DIRE)
-
 
 end
 
+local spellCooldown = 4.0
+local netCounted = 0
+local maxNets = 4
+
+function UseNetCasted(keys)
+	print("Casted use_net")
+	local caster = keys.caster
+	local abilityLevel = caster:FindAbilityByName("use_net"):GetLevel()
+	caster:RemoveAbility("use_net")
+
+	caster:AddAbility("use_net_counting")
+	caster:FindAbilityByName("use_net_counting"):SetLevel(abilityLevel)
+	local spellDuration = 10
+	
+
+	Timers:CreateTimer({
+		  	endTime = spellDuration,
+		  	callback = function()
+			  	--This if will trigger if the caster hasn't finished the nets
+			  	if(caster:FindAbilityByName("use_net_counting")) then
+			  	  	caster:RemoveAbility("use_net_counting")
+			  	  	caster:AddAbility("use_net")
+			  	  	caster:FindAbilityByName("use_net"):SetLevel(abilityLevel)
+			  	  	caster:FindAbilityByName("use_net"):StartCooldown(spellCooldown)
+			  	end
+		  	end
+	  	})
+end
 
 
+function UseNetCountingCasted(keys)
+	--print("Casted use_net_counting")
+	netCounted = netCounted + 1
+	print(netCounted)
+	if(netCounted == 4) then
+		netCounted = 0
+		local caster = keys.caster
+		local abilityLevel = caster:FindAbilityByName("use_net_counting"):GetLevel()
+		caster:RemoveAbility("use_net_counting")
+  	  	caster:AddAbility("use_net")
+  	  	caster:FindAbilityByName("use_net"):SetLevel(abilityLevel)
+  	  	caster:FindAbilityByName("use_net"):StartCooldown(spellCooldown)
+	end
+end
 

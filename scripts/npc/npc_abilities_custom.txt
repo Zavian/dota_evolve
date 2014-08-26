@@ -77,7 +77,7 @@
         "precache"
         {
 			"particle"				"particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
-			"particlefile" 			"particles/units/heroes/hero_silencer.pcf"
+			"particlefile" 			"particles/units/heroes/hero_mirana.pcf"
         }
 
         "OnSpellStart"
@@ -739,7 +739,7 @@
 	{
 		// General
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"FightRecapLevel"				"1"
 		"BaseClass"						"ability_datadriven"
 		"AbilityTextureName"			"use_net"
@@ -751,11 +751,90 @@
 		
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"20 16 12 8"
+		"AbilityCooldown"				"0"	// Look into custom_spells for the cooldown
 
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"100"
+		"AbilityManaCost"				"0"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
+	            "Function"                              "UseNetCasted"
+			}
+		}
+	}
+
+	//=================================================================================================================
+	// Use Net Counting
+	//=================================================================================================================
+	"use_net_counting"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"FightRecapLevel"				"1"
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"use_net_counting"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+
+		
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"500 750 1000 1250"
+		"AbilityCastPoint"				"0.3"
+		
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"0"
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0"
+
+		"precache"
+        {
+			"particle_folder"		"particles/units/heroes/hero_meepo/"
+			"particle_folder" 		"particles/neutral_fx/"
+        }
+
+		"OnSpellStart"
+		{
+			"LinearProjectile"
+	       	{
+	       		"Target"						"POINT"
+	           	"EffectName"                    ""
+	           	"MoveSpeed"                     "875"
+	           	"StartPosition"                 "attach_attack1"
+	           	"FixedDistance"                 "500"
+	           	"StartRadius"                   "50"
+	           	"EndRadius"                     "50"
+	           	"TargetTeams"                   "DOTA_UNIT_TARGET_TEAM_ENEMY"
+	           	"TargetTypes"                   "DOTA_UNIT_TARGET_HERO"
+	           	"HasFrontalCone"                "1"
+	           	"ProvidesVision"                "1"
+	           	"VisionRadius"                  "300"
+	       	}
+
+			"RunScript"
+			{
+				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
+	            "Function"                              "UseNetCountingCasted"
+			}
+		}
+
+		"OnProjectileHitUnit"
+	    {
+	    	"DeleteOnHit"		"1"
+	    	"ApplyModifier"
+	    	{
+	    		"Target" 			"TARGET"
+	    		"ModifierName"		"modifier_dark_troll_warlord_ensnare"
+	    	}
+	    }
 	}
 
 	//=================================================================================================================
@@ -812,7 +891,7 @@
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityTextureName"            "animal_companion"
+		"AbilityTextureName"            "summon_companion"
 		"BaseClass"						"ability_datadriven"	
 		"OnSpellStart"
 		{

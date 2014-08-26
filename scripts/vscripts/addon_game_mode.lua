@@ -36,8 +36,8 @@ function Evolve:InitGameMode()
 	print("")
 	GameRules:GetGameModeEntity():SetThink( "OnThink", self, "GlobalThink", 2 )
 	
-	ListenToGameEvent('dota_player_learned_ability', Dynamic_Wrap(Evolve, 'OnAbilityLearned'), self)
-	print("[BRAIN] Looking for learning ppl")
+	ListenToGameEvent('entity_killed', Dynamic_Wrap(Evolve, 'OnEntityKilled'), self)
+	print("[BRAIN] Looking for dead ppl")
 end
 
 -- Evaluate the state of the game
@@ -50,11 +50,18 @@ function Evolve:OnThink()
 	return 1
 end
 
-function Evolve:OnAbilityLearned(keys)
-	--local abilityName = keys.abilityname
-	--local hscript = EntIndexToHScript(keys.player)
-	--local PlayerID = keys.player
-	--print(hscript:GetName())
-	--print(abilityName)
-	--print("--------------")
+function Evolve:OnEntityKilled(keys)
+	PrintTable(keys)
+	local entity = keys.entindex_killed
+	local npc = EntIndexToHScript(entity)
+	if(npc and npc:GetUnitName() == "npc_evolve_arena_center") then
+		t = Entities:FindAllByModel("models/heroes/rattletrap/rattletrap_cog.vmdl")
+		local n = 0
+		for i = 1, table.getn(t) do
+			if(t[i]:GetUnitName() == "npc_evolve_arena_bound") then
+				t[i]:Destroy()
+			end
+		end
+		print("Found "..n.." cogs")
+	end
 end
