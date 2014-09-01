@@ -54,7 +54,7 @@
 	{
 		"override_hero"				"npc_dota_hero_furion"						// Hero to override
 		"AbilityLayout"				"4"
-		"Ability1"					"leave_trail_test"								// Ability 1
+		"Ability1"					"leave_trail_test"							// Ability 1
 		"Ability2"					"empty_spell"								// Ability 2
 		"Ability3"					"empty_spell"								// Ability 3
 		"Ability4"					"empty_spell"								// Ability 4
@@ -73,6 +73,21 @@
 		"Ability2"					"summon_animal_companion"					// Ability 2
 		"Ability3"					"use_net"								// Ability 3
 		"Ability4"					"summon_arena"								// Ability 4
+		//"VisionNighttimeRange"	"1800"										// Range of vision at night time.
+		//"ModelScale"				"0.9"										// Scale of the assigned model
+	}
+
+	//=================================================================================================================
+	// HERO: BeastMaster
+	//=================================================================================================================
+	"npc_evolve_hero_beastmaster"
+	{
+		"override_hero"				"npc_dota_hero_beastmaster"						// Hero to override
+		"AbilityLayout"				"4"
+		"Ability1"					"taunt"										// Ability 1
+		"Ability2"					"devastating_fist"							// Ability 2
+		"Ability3"					"empowering_shout"							// Ability 3
+		"Ability4"					"rage"										// Ability 4
 		//"VisionNighttimeRange"	"1800"										// Range of vision at night time.
 		//"ModelScale"				"0.9"										// Scale of the assigned model
 	}

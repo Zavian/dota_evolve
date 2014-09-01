@@ -15,38 +15,225 @@
 		"AbilityTextureName"            "rubick_empty1"
 	}
 
+	// Healer
+	// -----------------------------------------------------------------------
 	//=================================================================================================================
-	// Trigger Mine
+	// Heal Target
 	//=================================================================================================================
-	"trigger_mine"
+	"heal_target"
 	{
 		// General
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityTextureName"            "trigger_mine"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_MECHANICAL"
+		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NOT_MAGIC_IMMUNE_ALLIES"
+		"AbilityTextureName"            "heal_target"
 		"BaseClass"						"ability_datadriven"
-		"MaxLevel"						"1"
 
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastPoint"				"0"
+		"AbilityCastRange"				"700"
+		"AbilityCastPoint"				"0.5 0.5 0.5 0.5"
 		
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"0.0"
+		"AbilityCooldown"				"10.0"
 		
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"0"
+		"AbilityManaCost"				"90 100 110 120"
 		"OnSpellStart"
 		{
-			"RunScript"
-    		{
-				"ScriptFile"            "scripts/vscripts/datadriven/custom_spells.lua"
-        		"Function"              "MineTriggered"
-    		}
+			"Heal"
+			{
+				"Target"
+				{
+					"Center"	"TARGET"
+					"Teams"		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+				}
+				"HealAmount"	"%amount"
+			}
+		}
+
+		// This will make the spell heal a certain amount of life
+		// TOOD: Tweak the numbers
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"		"FIELD_INTEGER"
+				"amount"	"100 200 300 400"
+			}
 		}
 	}
+
+	//=================================================================================================================
+	// Heal Shot
+	//=================================================================================================================
+	"heal_shot"
+ 	{
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"      		 "ability_datadriven"
+        "AbilityBehavior"        "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+        "AbilityTextureName"     "heal_shot"
+        "AbilityChannelTime"	 "15"
+ 
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"       "1200"
+        "AbilityCastPoint"       "0.3 0.3 0.3 0.3"     
+ 
+        // Time
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"        "0"
+ 
+        // Damage.
+        //-------------------------------------------------------------------------------------------------------------
+        //"AbilityDamage"  "500"
+ 
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"        "0"
+ 
+        "precache"
+        {
+			"particle"				"particles/units/heroes/hero_puck/puck_illusory_orb.vpcf"
+			"particlefile" 			"particles/units/heroes/hero_silencer.pcf"
+        }
+
+        "OnSpellStart"
+		{
+			"RunScript" 
+			{
+				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
+	            "Function"                              "StartedHealShot"
+			}
+		}
+
+		"OnChannelInterrupted"
+		{
+
+		   	"LinearProjectile"
+	       	{
+	       		"Target"						"POINT"
+	           	"EffectName"                    "particles/units/heroes/hero_puck/puck_illusory_orb.vpcf"
+	           	"MoveSpeed"                     "1200"
+	           	"StartPosition"                 "attach_attack1"
+	           	"FixedDistance"                 "500"
+	           	"StartRadius"                   "50"
+	           	"EndRadius"                     "50"
+	           	"TargetTeams"                   "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+	           	"TargetTypes"                   "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	           	"HasFrontalCone"                "1"
+	           	"ProvidesVision"                "1"
+	           	"VisionRadius"                  "300"
+	       	}
+			"RunScript" 
+			{
+				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
+	            "Function"                              "InterruptedHealShot"
+			}
+		}
+
+		"OnChannelSucceeded"
+		{
+			"LinearProjectile"
+	       	{
+	       		"Target"						"POINT"
+	           	"EffectName"                    "particles/units/heroes/hero_puck/puck_illusory_orb.vpcf"
+	           	"MoveSpeed"                     "1200"
+	           	"StartPosition"                 "attach_attack1"
+	           	"FixedDistance"                 "1000"
+	           	"StartRadius"                   "50"
+	           	"EndRadius"                     "50"
+	           	"TargetTeams"                   "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+	           	"TargetTypes"                   "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	           	"HasFrontalCone"                "1"
+	           	"ProvidesVision"                "1"
+	           	"VisionRadius"                  "300"
+	       	}
+			"RunScript" 
+			{
+				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
+	            "Function"                              "SuccededHealShot"
+			}
+		}
+
+	    "OnProjectileHitUnit"
+	    {
+	    	"DeleteOnHit"		"0"
+	        "RunScript" 
+			{
+				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
+	            "Function"                              "HitHealShot"
+			} 
+	    }
+	}
+
+	//=================================================================================================================
+	// Shield Target
+	//=================================================================================================================
+	"shield_target"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+		"AbilityChannelTime"			"3"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_MECHANICAL"
+		"AbilityTextureName"            "shield_target"
+		"BaseClass"						"ability_datadriven"
+
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"700"
+		"AbilityCastPoint"				"0.5 0.5 0.5 0.5"
+		
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"10.0"
+		
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"90 100 110 120"
+
+		"OnSpellStart"
+		{
+			"RunScript" 
+			{
+				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
+	            "Function"                              "ChannelingShield"
+			}
+		}
+
+		// This will make the spell heal a certain amount of life
+		// TOOD: Tweak the numbers
+		// Look in the "custom_spells.lua" for the modifier
+		//"AbilitySpecial"
+		//{
+		//	"01"
+		//	{
+		//		"var_type"				"FIELD_FLOAT"
+		//		"duration"				"1.0"
+		//	}
+		//	"02"
+		//	{
+		//		"var_type"				"FIELD_FLOAT"
+		//		"damage_absorb"			"1000"
+		//	}
+		//	"03"
+		//	{
+		//		"var_type"				"FIELD_INTEGER"
+		//		"radius"				"0"
+		//	}
+		//}
+	}
+
+	// TODO: Projectile blocker
+
+	// -----------------------------------------------------------------------
 
 	//=================================================================================================================
 	// Slow Powershot
@@ -183,59 +370,84 @@
 	}
 
 	//=================================================================================================================
-	// Heal Target
+	// Devastating Fist
 	//=================================================================================================================
-	"heal_target"
+	"devastating_fist"
 	{
 		// General
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_MECHANICAL"
-		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NOT_MAGIC_IMMUNE_ALLIES"
-		"AbilityTextureName"            "heal_target"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NOT_CREEP_HERO | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+		"FightRecapLevel"				"2"
 		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"devastating_fist"
+
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"5.0"
 
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"700"
-		"AbilityCastPoint"				"0.5 0.5 0.5 0.5"
-		
-		// Time		
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"10.0"
-		
+		"AbilityCastRange"				"250"
+		"AbilityCastPoint"				"0.5"
+
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"90 100 110 120"
+		"AbilityManaCost"				"0"
+
 		"OnSpellStart"
 		{
-			"Heal"
-			{
-				"Target"
-				{
-					"Center"	"TARGET"
-					"Teams"		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-				}
-				"HealAmount"	"%amount"
-			}
+			"RunScript"
+    		{
+				"ScriptFile"            "scripts/vscripts/datadriven/custom_spells.lua"
+        		"Function"              "DevastatingFistCasted"
+    		}
 		}
+	}
 
-		// This will make the spell heal a certain amount of life
-		// TOOD: Tweak the numbers
-		"AbilitySpecial"
+	//=================================================================================================================
+	// Taunt
+	//=================================================================================================================
+	"taunt"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_NOT_CREEP_HERO | DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+		"FightRecapLevel"				"2"
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"taunt"
+
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"5.0"
+
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"250"
+		"AbilityCastPoint"				"0.5"
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"0"
+
+		"OnSpellStart"
 		{
-			"01"
+			"ApplyModifier"
 			{
-				"var_type"		"FIELD_INTEGER"
-				"amount"	"100 200 300 400"
+				"Target" 			"TARGET"
+				"ModifierName"		"modifier_axe_berserkers_call"
+				"Duration"			"15"
 			}
 		}
 	}
 
 	//=================================================================================================================
 	// Tracking Shot
-	// TODO: Graphical effect
 	//=================================================================================================================
 	"tracking_shot"
  	{
@@ -449,168 +661,8 @@
 	    }
 	}
 
-	//=================================================================================================================
-	// Heal Shot
-	//=================================================================================================================
-	"heal_shot"
- 	{
-        // General
-        //-------------------------------------------------------------------------------------------------------------
-        "BaseClass"      		 "ability_datadriven"
-        "AbilityBehavior"        "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
-        "AbilityTextureName"     "heal_shot"
-        "AbilityChannelTime"	 "15"
- 
-        // Casting
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastRange"       "1200"
-        "AbilityCastPoint"       "0.3 0.3 0.3 0.3"     
- 
-        // Time
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"        "0"
- 
-        // Damage.
-        //-------------------------------------------------------------------------------------------------------------
-        //"AbilityDamage"  "500"
- 
-        // Cost
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityManaCost"        "0"
- 
-        "precache"
-        {
-			"particle"				"particles/units/heroes/hero_puck/puck_illusory_orb.vpcf"
-			"particlefile" 			"particles/units/heroes/hero_silencer.pcf"
-        }
 
-        "OnSpellStart"
-		{
-			"RunScript" 
-			{
-				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
-	            "Function"                              "StartedHealShot"
-			}
-		}
 
-		"OnChannelInterrupted"
-		{
-
-		   	"LinearProjectile"
-	       	{
-	       		"Target"						"POINT"
-	           	"EffectName"                    "particles/units/heroes/hero_puck/puck_illusory_orb.vpcf"
-	           	"MoveSpeed"                     "1200"
-	           	"StartPosition"                 "attach_attack1"
-	           	"FixedDistance"                 "500"
-	           	"StartRadius"                   "50"
-	           	"EndRadius"                     "50"
-	           	"TargetTeams"                   "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-	           	"TargetTypes"                   "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-	           	"HasFrontalCone"                "1"
-	           	"ProvidesVision"                "1"
-	           	"VisionRadius"                  "300"
-	       	}
-			"RunScript" 
-			{
-				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
-	            "Function"                              "InterruptedHealShot"
-			}
-		}
-
-		"OnChannelSucceeded"
-		{
-			"LinearProjectile"
-	       	{
-	       		"Target"						"POINT"
-	           	"EffectName"                    "particles/units/heroes/hero_puck/puck_illusory_orb.vpcf"
-	           	"MoveSpeed"                     "1200"
-	           	"StartPosition"                 "attach_attack1"
-	           	"FixedDistance"                 "1000"
-	           	"StartRadius"                   "50"
-	           	"EndRadius"                     "50"
-	           	"TargetTeams"                   "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-	           	"TargetTypes"                   "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-	           	"HasFrontalCone"                "1"
-	           	"ProvidesVision"                "1"
-	           	"VisionRadius"                  "300"
-	       	}
-			"RunScript" 
-			{
-				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
-	            "Function"                              "SuccededHealShot"
-			}
-		}
-
-	    "OnProjectileHitUnit"
-	    {
-	    	"DeleteOnHit"		"0"
-	        "RunScript" 
-			{
-				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
-	            "Function"                              "HitHealShot"
-			} 
-	    }
-	}
-
-	//=================================================================================================================
-	// Shield Target
-	//=================================================================================================================
-	"shield_target"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
-		"AbilityChannelTime"			"3"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_MECHANICAL"
-		"AbilityTextureName"            "shield_target"
-		"BaseClass"						"ability_datadriven"
-
-		// Casting
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"700"
-		"AbilityCastPoint"				"0.5 0.5 0.5 0.5"
-		
-		// Time		
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"10.0"
-		
-		// Cost
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"90 100 110 120"
-
-		"OnSpellStart"
-		{
-			"RunScript" 
-			{
-				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
-	            "Function"                              "ChannelingShield"
-			}
-		}
-
-		// This will make the spell heal a certain amount of life
-		// TOOD: Tweak the numbers
-		// Look in the "custom_spells.lua" for the modifier
-		//"AbilitySpecial"
-		//{
-		//	"01"
-		//	{
-		//		"var_type"				"FIELD_FLOAT"
-		//		"duration"				"1.0"
-		//	}
-		//	"02"
-		//	{
-		//		"var_type"				"FIELD_FLOAT"
-		//		"damage_absorb"			"1000"
-		//	}
-		//	"03"
-		//	{
-		//		"var_type"				"FIELD_INTEGER"
-		//		"radius"				"0"
-		//	}
-		//}
-	}
 
 
 	//=================================================================================================================
@@ -883,7 +935,7 @@
 		}
 	}
 
-	/=================================================================================================================
+	//=================================================================================================================
 	// Summon Animal Companion
 	//=================================================================================================================
 	"summon_animal_companion"
@@ -911,7 +963,127 @@
 				//"Duration"		"%duration"
 			}
 		}
-
-		
 	}
+
+
+	//=================================================================================================================
+	// Rage
+	//=================================================================================================================
+	"rage"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityTextureName"            "rage"
+		"BaseClass"						"ability_datadriven"	
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target"				"CASTER"
+				"ModifierName"			"modifier_item_hyperstone"
+				"Duration"				"%duration"					
+			}
+			"ApplyModifier"
+			{
+				"Target"				"CASTER"
+				"ModifierName"			"modifier_sven_gods_strength"
+				"Duration"				"%duration"
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_attack_speed"	"1000"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"gods_strength_damage"		"50" // Percentage	
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"duration"			"15"
+			}
+		}
+	}
+
+	//=================================================================================================================
+	// Empowering Shout
+	//=================================================================================================================
+	"empowering_shout"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		//"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		//"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_ALL"
+		"AbilityTextureName"            "empowering_shout"
+		"BaseClass"						"ability_datadriven"	
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target"	// Have to define the Targets
+				{
+					"Center"  				"CASTER"   							// The center where is casted the spell
+					"Radius" 				"%radius"							// The radius for searching the targets
+					"Teams" 				"DOTA_UNIT_TARGET_TEAM_FRIENDLY"  	// The spell will target only the friendly targets
+					"Types" 				"DOTA_UNIT_TARGET_ALL" 				// The spell will target any type of unit
+				}
+				"ModifierName"		"modifier_sven_warcry"			// Dust of Appearance(item)
+				"Duration"			"%duration"
+			}
+			"ApplyModifier"
+			{
+				"Target"	// Have to define the Targets
+				{
+					"Center"  				"CASTER"   							// The center where is casted the spell
+					"Radius" 				"%radius"							// The radius for searching the targets
+					"Teams" 				"DOTA_UNIT_TARGET_TEAM_FRIENDLY"  	// The spell will target only the friendly targets
+					"Types" 				"DOTA_UNIT_TARGET_ALL" 				// The spell will target any type of unit
+				}
+				"ModifierName"		"modifier_sven_gods_strength"			// Dust of Appearance(item)
+				"Duration"			"%duration"
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"duration"				"12"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"				"1050"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"warcry_armor"		"0"		
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"warcry_movespeed"	"0"
+			}
+			"05"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"warcry_radius"		"1050"
+			}
+			"06"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"gods_strength_damage"		"50"	// Percentage	
+			}
+		}
+	}
+
+
 }

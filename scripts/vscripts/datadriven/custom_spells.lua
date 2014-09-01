@@ -229,7 +229,7 @@ function PlaceArena(keys)
 	  end
 	end
 
-	Timers:CreateTimer({
+	Timers:CreateTimer({					-- This timer determines when the arena will be destroyed
 		  	endTime = cogDuration,
 		  	callback = function()
 		  		for i=1,table.getn(cog) do
@@ -285,4 +285,28 @@ function UseNetCountingCasted(keys)
   	  	caster:FindAbilityByName("use_net"):StartCooldown(spellCooldown)
 	end
 end
+
+function DevastatingFistCasted(keys)
+	local caster = keys.caster
+	local target = keys.target
+	local level = caster:FindAbilityByName("devastating_fist"):GetLevel()
+	local percentageDamage
+	if (level == 1) then percentageDamage = 5.00 
+ 	elseif (level == 2) then percentageDamage = 7.50 
+ 	elseif (level == 3) then percentageDamage = 10.00 
+ 	elseif (level == 4) then percentageDamage = 15.00
+	end
+
+
+	local enemyHP = target:GetHealth()
+	local damage = math.floor((percentageDamage * enemyHP) / 100)
+		local damageTable = {
+		victim = target,
+		attacker = keys.caster,
+		damage = damage,
+		damage_type = DAMAGE_TYPE_PURE
+	}
+	ApplyDamage(damageTable)
+end
+
 

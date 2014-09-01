@@ -51,7 +51,6 @@ function Evolve:OnThink()
 end
 
 function Evolve:OnEntityKilled(keys)
-	PrintTable(keys)
 	local entity = keys.entindex_killed
 	local npc = EntIndexToHScript(entity)
 	if(npc and npc:GetUnitName() == "npc_evolve_arena_center") then
@@ -62,6 +61,6 @@ function Evolve:OnEntityKilled(keys)
 				t[i]:Destroy()
 			end
 		end
-		print("Found "..n.." cogs")
+		--print("Found "..n.." cogs")
 	end
 end
