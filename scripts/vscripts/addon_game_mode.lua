@@ -38,6 +38,8 @@ function Evolve:InitGameMode()
 	
 	ListenToGameEvent('entity_killed', Dynamic_Wrap(Evolve, 'OnEntityKilled'), self)
 	print("[BRAIN] Looking for dead ppl")
+
+	GameRules:SetHeroRespawnEnabled(false)
 end
 
 -- Evaluate the state of the game
@@ -53,6 +55,8 @@ end
 function Evolve:OnEntityKilled(keys)
 	local entity = keys.entindex_killed
 	local npc = EntIndexToHScript(entity)
+
+	--Here I'll manage the arena stuff
 	if(npc and npc:GetUnitName() == "npc_evolve_arena_center") then
 		t = Entities:FindAllByModel("models/heroes/rattletrap/rattletrap_cog.vmdl")
 		local n = 0
@@ -62,5 +66,22 @@ function Evolve:OnEntityKilled(keys)
 			end
 		end
 		--print("Found "..n.." cogs")
+	elseif(npc:IsHero()) then
+		local location = npc:GetAbsOrigin()
+		local tombstone = CreateUnitByName("npc_evolve_tombstone", location, false, npc, npc, npc:GetTeam()) 
+		tombstone:SetControllableByPlayer(npc:GetPlayerOwnerID(), true)
+		local modifiers = { 
+			"modifier_phased",								--The unit won't collide with others
+			"modifier_invulnerable"
+		}
+		for i=1, table.getn(modifiers) do
+			tombstone:AddNewModifier(tombstone, nil, modifiers[i], nil)
+		end
+		entities = Entities:FindAllByClassname("info_player_start_goodguys")
+		for i=1, table.getn(entities) - 1 do
+			entities[i]:Destroy()
+		end
+
 	end
+
 end

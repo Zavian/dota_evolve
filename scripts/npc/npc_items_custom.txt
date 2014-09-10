@@ -1,79 +1,55 @@
 "DOTAAbilities"
 {
 	//=================================================================================================================
-	// Recipe: Arcane Boots
+	// Ress Item
 	//=================================================================================================================
-	"item_recipe_arcane_boots2"
+	"item_evolve_resurrect"
 	{
-		"ID"							"1005"
-
-		"BaseClass"						"item_recipe_arcane_boots"
-
-		// Item Info
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemCost"						"0"	
-		"ItemShopTags"					""
-		
-		// Recipe
-		//-------------------------------------------------------------------------------------------------------------
-		"ItemRecipe"					"1"
-		"ItemResult"					"item_arcane_boots2"
-		"ItemRequirements"
-		{
-			"01"						"item_energy_booster;item_arcane_boots"
-		}
-	}
-	
-	//=================================================================================================================
-	// Arcane Boots II
-	//=================================================================================================================
-	"item_arcane_boots2"
-	{
-		"ID"							"1006"
-
 		// General
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"BaseClass"						"item_arcane_boots"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_MECHANICAL"
+		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+		"Model"							"models/props_gameplay/status_shield.vmdl"
+		"BaseClass"						"item_datadriven"
+		"AbilityTextureName"			"item_ressurect"
+		"ItemKillable"					"0"
+		"ItemSellable"					"0"
+		"ItemDroppable"					"1"
 
-		// Stats		
+		// Stats
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"55.0"
+		"AbilityCastRange"				"5000"
+		"AbilityCastPoint"				"0.0"
+		"AbilityCooldown"				"0.38" // "6"
+		"AbilityCastAnimation"			"ACT_DOTA_DISABLED"
+		"AbilityChannelTime"			"3"
 
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"25"
-		"ItemCost"						"2450"
-		"ItemShopTags"					"move_speed;boost_mana;mana_pool"
-		"ItemQuality"					"rare"
+		"AbilityManaCost"				"250"
+		"ItemCost"						"0"
+		"ItemShopTags"					"consumable"
+		"ItemQuality"					"consumable"
 		"ItemDeclarations"				"DECLARE_PURCHASES_TO_SPECTATORS"
-		"ItemDisassembleRule"			"0"
-		"ItemAlertable"					"1"
-		"ItemAliases"					"mana;mb"
+    	"ItemDisplayCharges"			"1"
+		"ItemInitialCharges"			"2"
+		"ItemRequiresCharges"			"1"
+		"ItemPurchasable"				"1"
+		"SecretShop"					"0"
 		
-		// Special	
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilitySpecial"
+		"MaxUpgradeLevel"				"1"
+		"ItemBaseLevel"					"1"
+
+		"OnChannelSucceeded"
 		{
-			"01"
+			"SpendCharge"				"1"
+			"RunScript"
 			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_movement"		"75"
-			}
-			"02"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_mana"			"500"
-			}
-			"03"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"replenish_radius"		"600"
-			}
-			"04"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"replenish_amount"		"250"
+				"ScriptFile"			"scripts/vscripts/datadriven/custom_spells.lua"
+				"Function"				"itemRessurecting"
+				"ChargeType"			"UNLINKED"
 			}
 		}
 	}

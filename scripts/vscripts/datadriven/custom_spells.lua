@@ -1,4 +1,16 @@
-
+function itemRessurecting(keys)
+	local target = keys.target
+	--local target_entity = keys.target_entities[1]
+	if(target:GetUnitName() == "npc_evolve_tombstone") then
+		local owner = target:GetPlayerOwner()
+		local hero = owner:GetAssignedHero()
+		local spawner = Entities:FindAllByClassname("info_player_start_goodguys")[1]
+		spawner:SetAbsOrigin(target:GetAbsOrigin())
+		target:Destroy()
+		hero:RespawnHero(false, false, false)
+		spawner:Destroy()
+	end
+end
 
 function ChannelingShield(keys)
 	-- Event fired when I channel the shield
