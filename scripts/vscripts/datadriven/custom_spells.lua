@@ -100,7 +100,6 @@ end
 function MineTriggered(keys)
 	local caster = keys.caster
 	local casterName = caster:GetName()
-	local visionDuration = 10
 	if (string.match(casterName, "bounty")) then
 		--Gotta do the trigger mine from the hero
 	else
@@ -119,7 +118,7 @@ function MineTriggered(keys)
 		
 		--Here I created a vision unit, which will give us vision for a certain time
 	  	Timers:CreateTimer({
-		  	endTime = visionDuration,
+		  	endTime = keys.VisionDuration,
 		  	callback = function()
 		  	  dummy_unit:Destroy()
 		  	end
@@ -135,7 +134,6 @@ local timeSpent
 --HealShot Zone
 -------------------------------------------------------------------------------------------------------------
 local toHeal = 0
-local maxHeal = 500
 local HealShot_maxCast = 15
 
 function StartedHealShot(keys)
@@ -146,6 +144,7 @@ end
 function InterruptedHealShot(keys)
 	caster = keys.caster
 	ability = keys.ability
+	maxHeal = keys.MaxHeal
 	local currentTime = Time()	
 	timeSpent = math.floor(currentTime - savingTime)
 	local percentage = math.floor((timeSpent*100) / HealShot_maxCast)
@@ -153,7 +152,7 @@ function InterruptedHealShot(keys)
 end
 
 function SuccededHealShot(keys)
-	toHeal = maxHeal
+	toHeal = keys.MaxHeal
 end
 
 function HitHealShot(keys)
@@ -302,14 +301,7 @@ function DevastatingFistCasted(keys)
 	local caster = keys.caster
 	local target = keys.target
 	local level = caster:FindAbilityByName("devastating_fist"):GetLevel()
-	local percentageDamage
-	if (level == 1) then percentageDamage = 5.00 
- 	elseif (level == 2) then percentageDamage = 7.50 
- 	elseif (level == 3) then percentageDamage = 10.00 
- 	elseif (level == 4) then percentageDamage = 15.00
-	end
-
-
+	local percentageDamage = keys.Percentage
 	local enemyHP = target:GetHealth()
 	local damage = math.floor((percentageDamage * enemyHP) / 100)
 		local damageTable = {

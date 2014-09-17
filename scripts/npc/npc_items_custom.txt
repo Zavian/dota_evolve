@@ -3,8 +3,10 @@
 	//=================================================================================================================
 	// Ress Item
 	//=================================================================================================================
-	"item_evolve_ressurrect"
+	"item_evolve_ress"
 	{
+		"ID"							"2000"
+		"AbilityTextureName"			"item_evolve_ress"
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
@@ -13,7 +15,7 @@
 		"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
 		"Model"							"models/props_gameplay/magic_wand.vmdl"
 		"BaseClass"						"item_datadriven"
-		"AbilityTextureName"			"item_ressurect"
+		
 		"ItemKillable"					"0"
 		"ItemSellable"					"0"
 		"ItemDroppable"					"1"
@@ -68,6 +70,10 @@
 	//=================================================================================================================
 	"item_evolve_force_staff"
 	{
+		"ID"							"2001"
+		"AbilityTextureName"			"item_evolve_force_staff"
+		// General
+		//-------------------------------------------------------------------------------------------------------------
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_MECHANICAL"
@@ -79,8 +85,7 @@
 		"AbilityCastRange"				"800"
 		"AbilityCastPoint"				"0.0"
 		"AbilityCooldown"				"20.0"
-		"AbilityTextureName"			"item_force_staff"
-
+		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilityManaCost"				"25"
@@ -114,6 +119,8 @@
 	//=================================================================================================================
 	"item_evolve_ward"
 	{
+		"ID"							"2002"
+		"AbilityTextureName"			"item_evolve_ward"
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"BaseClass"						"item_ward_observer"
@@ -129,7 +136,6 @@
 		"AbilityCastRange"				"500"
 		"AbilityCastPoint"				"0.0"
 		"AbilityCooldown"				"1.0"
-		"AbilityTextureName"			"item_ward"
 
 		
 		// Item Info
@@ -175,6 +181,8 @@
 	//=================================================================================================================
 	"item_evolve_sentry"
 	{
+		"ID"							"2003"
+		"AbilityTextureName"			"item_evolve_sentry"
 		// General
 		//-------------------------------------------------------------------------------------------------------------
 		"BaseClass"						"item_ward_sentry"
@@ -189,8 +197,7 @@
 		"AbilityCastRange"				"500"
 		"AbilityCastPoint"				"0.0"
 		"AbilityCooldown"				"1.0"
-		"AbilityTextureName"			"item_sentry"
-
+		
 		
 		// Item Info
 		//-------------------------------------------------------------------------------------------------------------

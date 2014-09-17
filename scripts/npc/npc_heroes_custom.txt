@@ -71,7 +71,7 @@
 		"AbilityLayout"				"4"
 		"Ability1"					"power_shot"								// Ability 1
 		"Ability2"					"summon_animal_companion"					// Ability 2
-		"Ability3"					"use_net"								// Ability 3
+		"Ability3"					"use_net"									// Ability 3
 		"Ability4"					"summon_arena"								// Ability 4
 		//"VisionNighttimeRange"	"1800"										// Range of vision at night time.
 		//"ModelScale"				"0.9"										// Scale of the assigned model
