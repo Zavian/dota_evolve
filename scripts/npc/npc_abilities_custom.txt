@@ -872,6 +872,8 @@
 				"ScriptFile"        "scripts/vscripts/datadriven/custom_spells.lua"
 	            "Function"          "UseNetCasted"
 	            "Charges"			"%charges"
+	            "SpellDuration"		"%spell_duration"
+	            "SpellCooldown"		"%spell_cooldown"
 			}
 		}
 
@@ -881,6 +883,16 @@
 			{
 				"var_type"			"FIELD_INTEGER"
 				"charges"			"3"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"spell_duration"			"5"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"spell_cooldown"			"10"
 			}
 		}
 	}
@@ -939,8 +951,9 @@
 
 			"RunScript"
 			{
-				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
-	            "Function"                              "UseNetCountingCasted"
+				"ScriptFile"                    "scripts/vscripts/datadriven/custom_spells.lua"
+	            "Function"                      "UseNetCountingCasted"
+	            "SpellCooldown"					"%spell_cooldown"
 			}
 		}
 
@@ -952,6 +965,15 @@
 	    		"Target" 			"TARGET"
 	    		"ModifierName"		"modifier_dark_troll_warlord_ensnare"
 	    	}
+	    }
+
+	    "AbilitySpecial"
+	    {
+	    	"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"spell_cooldown"	"10"
+			}
 	    }
 	}
 
