@@ -163,39 +163,39 @@ end
 --End HealShot
 -------------------------------------------------------------------------------------------------------------
 
---PowerShot Zone
+--SlowShot Zone
 -------------------------------------------------------------------------------------------------------------
-local toDamage = 0
-local maxDamage = 500
-local PowerShot_maxCast = 15
+local toSlow = 0
 
-function StartedPowerShot(keys)
+function StartedSlowShot(keys)
 	savingTime = Time()
 	print(savingTime)
 end
 
-function InterruptedPowerShot(keys)
+function InterruptedSlowShot(keys)
 	caster = keys.caster
 	ability = keys.ability
 	local currentTime = Time()	
 	timeSpent = math.floor(currentTime - savingTime)
-	local percentage = math.floor((timeSpent*100) / HealShot_maxCast)
-	toDamage = (percentage * maxHeal) / 100
+	local percentage = math.floor((timeSpent*100) / keys.MaxCast)
+	toSlow = (percentage * keys.MaxSlow) / 100
 end
 
-function SuccededHPowerShot(keys)
-	toDamage = maxDamage
+function SuccededSlowShot(keys)
+	toSlow = keys.MaxSlow
 end
 
-function HitPowerShot(keys)
+function HitSlowShot(keys)
 	target  = keys.target
-	local damageTable = {
-		victim = target,
-		attacker = keys.caster,
-		damage = toDamage,
-		damage_type = DAMAGE_TYPE_MAGICAL
+	local modifier = "modifier_item_orb_of_venom_slow"
+	print(toSlow)
+	local modifierSlow = -math.floor(toSlow)
+	local modifierData = {
+		damage = 0, 
+		slow = modifierSlow, 
+		duration = 5
 	}
-	ApplyDamage(damageTable)
+	target:AddNewModifier(target, nil, modifier, modifierData)
 end
 
 --End PowerShot

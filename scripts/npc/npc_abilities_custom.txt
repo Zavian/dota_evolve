@@ -237,16 +237,16 @@
 	// -----------------------------------------------------------------------
 
 	//=================================================================================================================
-	// Slow Powershot
+	// Slow Shot
 	//=================================================================================================================
-	"power_shot"
+	"slow_shot"
 	{
 		// General
         //-------------------------------------------------------------------------------------------------------------
         "BaseClass"      		 "ability_datadriven"
         "AbilityBehavior"        "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
-        "AbilityTextureName"     "power_shot"
-        "AbilityChannelTime"	 "15"
+        "AbilityTextureName"     "slow_shot"
+        "AbilityChannelTime"	 "8"
  
         // Casting
         //-------------------------------------------------------------------------------------------------------------
@@ -273,7 +273,7 @@
 			"RunScript" 
 			{
 				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
-	            "Function"                              "StartedPowerShot"
+	            "Function"                              "StartedSlowShot"
 			}
 		}
 
@@ -286,10 +286,10 @@
 	           	"EffectName"                    "particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
 	           	"MoveSpeed"                     "1200"
 	           	"StartPosition"                 "attach_attack1"
-	           	"FixedDistance"                 "500"
+	           	"FixedDistance"                 "1200"
 	           	"StartRadius"                   "50"
 	           	"EndRadius"                     "50"
-	           	"TargetTeams"                   "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+	           	"TargetTeams"                   "DOTA_UNIT_TARGET_TEAM_ENEMY"
 	           	"TargetTypes"                   "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 	           	"HasFrontalCone"                "1"
 	           	"ProvidesVision"                "1"
@@ -297,8 +297,10 @@
 	       	}
 			"RunScript" 
 			{
-				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
-	            "Function"                              "InterruptedPowerShot"
+				"ScriptFile"                    "scripts/vscripts/datadriven/custom_spells.lua"
+	            "Function"                      "InterruptedSlowShot"
+	            "MaxSlow"						"%max_slow"
+	            "MaxCast"						"%max_cast"
 			}
 		}
 
@@ -310,10 +312,10 @@
 	           	"EffectName"                    "particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
 	           	"MoveSpeed"                     "1200"
 	           	"StartPosition"                 "attach_attack1"
-	           	"FixedDistance"                 "1000"
+	           	"FixedDistance"                 "1200"
 	           	"StartRadius"                   "50"
 	           	"EndRadius"                     "50"
-	           	"TargetTeams"                   "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+	           	"TargetTeams"                   "DOTA_UNIT_TARGET_TEAM_ENEMY"
 	           	"TargetTypes"                   "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 	           	"HasFrontalCone"                "1"
 	           	"ProvidesVision"                "1"
@@ -321,19 +323,37 @@
 	       	}
 			"RunScript" 
 			{
-				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
-	            "Function"                              "SuccededPowerShot"
+				"ScriptFile"                    "scripts/vscripts/datadriven/custom_spells.lua"
+	            "Function"                      "SuccededSlowShot"
+	            "MaxSlow"						"%max_slow"
+	            "MaxCast"						"%max_cast"
 			}
 		}
 
 	    "OnProjectileHitUnit"
 	    {
-	    	"DeleteOnHit"		"0"
+	    	"DeleteOnHit"		"1"
 	        "RunScript" 
 			{
-				"ScriptFile"                    		"scripts/vscripts/datadriven/custom_spells.lua"
-	            "Function"                              "HitPowerShot"
+				"ScriptFile"                    "scripts/vscripts/datadriven/custom_spells.lua"
+	            "Function"                      "HitSlowShot"
+	            "MaxSlow"						"%max_slow"
+	            "MaxCast"						"%max_cast"
 			} 
+	    }
+
+	    "AbilitySpecial"
+	    {
+	    	"01"
+	    	{
+	    		"var_type"				"FIELD_INTEGER"
+	    		"max_slow"				"100"
+	    	}
+	    	"02"
+	    	{
+	    		"var_type"				"FIELD_INTEGER"
+	    		"max_cast"				"8"
+	    	}
 	    }
 	}
 
