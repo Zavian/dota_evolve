@@ -117,7 +117,8 @@ local timeSpent
 		  			return tick
 		  		end
 		    end
-		)		
+			)
+		end		
 --END HEALER
 
 --TRAPPER
@@ -306,6 +307,43 @@ local timeSpent
 			ApplyDamage(damageTable)
 		end
 --END BRAWLER
+
+--BEAST
+	--LEAPING SMASH
+		function LeapingSmashRotationCasted(keys)
+			local rotation = "leaping_smash_rotation"
+			local leap = "mirana_leap"
+			local smash = "leaping_smash_damage"
+			local caster = keys.caster
+			local level = caster:FindAbilityByName(rotation):GetLevel()
+
+			targetPosition = keys.target_points[1]
+			caster:MoveToPosition(targetPosition)
+			caster:Hold()
+			caster:RemoveAbility(rotation)
+
+			caster:AddAbility(leap)
+			caster:FindAbilityByName(leap):SetLevel(1)
+			caster:CastAbilityImmediately(caster:FindAbilityByName(leap), caster:GetEntityIndex())
+			caster:RemoveAbility(leap)
+
+			caster:AddAbility(rotation)
+			caster:FindAbilityByName(rotation):SetLevel(level)
+
+			Timers:CreateTimer({
+			  	endTime = .35,
+			  	callback = function()
+				  	caster:AddAbility(smash)
+					caster:FindAbilityByName(smash):SetLevel(level)
+					caster:CastAbilityImmediately(caster:FindAbilityByName(smash), caster:GetEntityIndex())
+					caster:RemoveAbility(smash)
+			  	end
+		  	})
+			
+
+			
+		end
+--END BEAST
 
 
 

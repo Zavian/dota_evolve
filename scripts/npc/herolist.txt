@@ -11,4 +11,6 @@
 	"npc_dota_hero_bounty_hunter"	"1"
 	"npc_dota_hero_slark"			"1"
 	"npc_dota_hero_beastmaster"		"1"
+
+	"npc_dota_hero_ursa"			"1"
 }

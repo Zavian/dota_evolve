@@ -15,6 +15,233 @@
 		"AbilityTextureName"            "rubick_empty1"
 	}
 
+	//=================================================================================================================
+	// Leaping Smash
+	//=================================================================================================================
+	"leaping_smash_rotation"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_MECHANICAL"
+		"AbilityTextureName"            "leaping_smash"
+		"BaseClass"						"ability_datadriven"
+
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"700"
+		"AbilityCastPoint"				"0.5 0.5 0.5 0.5"
+		
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"10.0"
+		
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"90 100 110 120"
+		"OnSpellStart"
+		{	
+			"RunScript" 
+			{
+				"ScriptFile"            "scripts/vscripts/datadriven/custom_spells.lua"
+	            "Function"              "LeapingSmashRotationCasted"
+	            "Range"					"700"
+	            "Target"				"POINT"
+			}
+		}
+	}
+	"leaping_smash_damage"
+	{
+		"precache"
+		{
+			"particle"					"particles/neutral_fx/ursa_thunderclap.vpcf"
+			"particle"					"particles/econ/items/warlock/warlock_staff_glory/warlock_upheaval_infernal_debuff_steam.vpcf"
+		}
+		"AbilityBehavior"				"DOTA_ABILITY_BEHVIOR_IMMEDIATE"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_MECHANICAL"
+		"BaseClass"						"ability_datadriven"
+		"OnSpellStart"
+		{
+			"AttachEffect"
+			{
+				"Target"			"CASTER"
+				"EffectName"		"particles/neutral_fx/ursa_thunderclap.vpcf"						
+				"EffectAttachType"	"follow_origin"
+			}
+			"Damage"
+			{
+				"Target"
+				{
+					"Center"  				"CASTER"
+					"Radius" 				"150"
+					"Teams" 				"DOTA_UNIT_TARGET_TEAM_ENEMY" 
+				}
+				"Type"			 "DAMAGE_TYPE_PURE"
+				"Damage"		 "%damage"
+			}
+			"ApplyModifier"
+			{
+				"Target"
+				{
+					"Center"  				"CASTER"
+					"Radius" 				"150"
+					"Teams" 				"DOTA_UNIT_TARGET_TEAM_ENEMY"
+				}
+				"ModifierName"		"smash_modifier"
+			}
+
+
+		}
+
+		"Modifiers"    				 
+		{  							
+			"smash_modifier"   	
+			{
+				
+				"IsDebuff"					"1"
+				"IsPurgable"				"0"
+				"IsStunDebuff"				"0"
+				"IsHidden"					"0"
+				"EffectName"				"particles/econ/items/warlock/warlock_staff_glory/warlock_upheaval_infernal_debuff_steam.vpcf"
+				"EffectAttachType"			"follow_origin"
+				"Duration"					"5"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE"      "-20"
+				}
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"		"FIELD_INTEGER"
+				"damage"		"100 200 300 400"
+			}
+		}
+	}
+
+	//=================================================================================================================
+	// Fire Breath
+	//=================================================================================================================
+	"fire_breath"
+	{
+		"precache"
+		{
+			"particle"	"particles/units/heroes/hero_dragon_knight/dragon_knight_breathe_fire.vpcf"
+			"particle"	"particles/units/heroes/hero_jakiro/jakiro_liquid_fire_debuff.vpcf"
+		}
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_MECHANICAL"
+		"AbilityTextureName"            "fire_breath"
+		"BaseClass"						"ability_datadriven"
+
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"150"
+		"AbilityCastPoint"				"0.5 0.5 0.5 0.5"
+		
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"10.0"
+		
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"90 100 110 120"
+		"OnSpellStart"
+		{			
+			"LinearProjectile"
+			{
+				"Target"				"POINT"
+				"EffectName"			"particles/units/heroes/hero_dragon_knight/dragon_knight_breathe_fire.vpcf"
+				"MoveSpeed"				"400"
+				"StartPosition"			"attach_attack1"
+				"StartRadius"			"10"
+				"EndRadius"				"1000"
+				"TargetTeams"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+				"TargetTypes"			"DOTA_UNIT_TARGET_HERO"
+				"TargetFlags"			"DOTA_UNIT_TARGET_FLAG_NONE"
+				"HasFrontalCone"		"1"
+				"ProvidesVision"		"0"
+				"VisionRadius"			"300"
+			}
+		}
+		"OnProjectileHitUnit"
+	    {
+	    	"DeleteOnHit"		"0"
+	    	"ApplyModifier"
+	    	{
+	    		"Target" 			"TARGET"
+	    		"ModifierName"		"flame_breath_fx"
+	    	}
+	    	"Damage"
+	    	{
+	    		"Target"		 "TARGET"
+	    		"Type"			 "DAMAGE_TYPE_MAGICAL"
+	    		"Damage"		 "%damage"
+	    	}
+	    }
+
+	    "Modifiers"    				 
+	    {  							
+	    	"flame_breath_fx"   	
+	    	{
+	    		"OnCreated"
+				{
+					"AttachEffect"
+					{
+						"Target"			"TARGET"
+						"EffectName"		"particles/units/heroes/hero_jakiro/jakiro_liquid_fire_debuff.vpcf"						
+						"EffectAttachType"	"follow_origin"
+					}
+				}
+	    		
+	    		"IsDebuff"					"1"
+	    		"IsPurgable"				"0"
+	    		"IsStunDebuff"				"0"
+	    		"IsHidden"					"0"	 	    		
+	    		"Duration"					"10"
+
+	    		"ThinkInterval"				"1"
+	    		"OnIntervalThink"
+				{
+					"Damage"
+					{
+						"Target"		"TARGET"
+						"Type"			"DAMAGE_TYPE_MAGICAL"
+						"Damage"		"%dot"
+					}
+				}
+	    	}
+	    }
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"damage"	"100 200 300 400"
+			}
+			"02"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"dot"		"5 10 15 20"
+			}
+			"03"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"dot"		"10"
+			}
+		}
+	}
+
+
 	// Healer
 	// -----------------------------------------------------------------------
 	//=================================================================================================================
@@ -716,9 +943,6 @@
             }
 	    }
 	}
-
-
-
 
 
 	//=================================================================================================================
