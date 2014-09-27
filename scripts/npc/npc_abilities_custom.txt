@@ -109,7 +109,7 @@
 				"Duration"					"5"
 				"Properties"
 				{
-					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE"      "-20"
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE"      "%slow"
 				}
 			}
 		}
@@ -120,6 +120,11 @@
 			{
 				"var_type"		"FIELD_INTEGER"
 				"damage"		"100 200 300 400"
+			}
+			"02"
+			{
+				"var_type"		"FIELD_INTEGER"
+				"slow"			"-20"
 			}
 		}
 	}
