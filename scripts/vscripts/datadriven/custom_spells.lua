@@ -308,7 +308,7 @@ local timeSpent
 		end
 --END BRAWLER
 
---BEAST
+--GOLIATH
 	--LEAPING SMASH
 		function LeapingSmashRotationCasted(keys)
 			local rotation = "leaping_smash_rotation"
@@ -338,12 +338,9 @@ local timeSpent
 					caster:CastAbilityImmediately(caster:FindAbilityByName(smash), caster:GetEntityIndex())
 					caster:RemoveAbility(smash)
 			  	end
-		  	})
-			
-
-			
+		  	})			
 		end
---END BEAST
+--END GOLIATH
 
 
 
