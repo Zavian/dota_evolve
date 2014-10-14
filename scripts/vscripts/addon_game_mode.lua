@@ -42,6 +42,7 @@ function Evolve:InitGameMode()
 	GameRules:SetHeroRespawnEnabled(false)
 end
 
+
 -- Evaluate the state of the game
 function Evolve:OnThink()
 	if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
@@ -81,7 +82,5 @@ function Evolve:OnEntityKilled(keys)
 		for i=1, table.getn(entities) - 1 do
 			entities[i]:Destroy()
 		end
-
 	end
-
 end

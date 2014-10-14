@@ -12,6 +12,7 @@ function itemRessurecting(keys)
 	end
 end
 
+
 function LeaveTrailTest(keys)
 	local caster = keys.caster
 
@@ -339,6 +340,77 @@ local timeSpent
 					caster:RemoveAbility(smash)
 			  	end
 		  	})			
+		end
+	--BOULDER THROW
+		function BoulderThrowRock(keys)
+			local summon = "boulder_throw_rock"
+			local toss = "boulder_throw_toss"
+			local caster = keys.caster
+			local target = keys.target
+			local level = caster:FindAbilityByName(summon):GetLevel()
+
+			local casterPosition = caster:GetAbsOrigin()
+			local enemyPosition = target:GetAbsOrigin()
+
+			local biggerX, smallerX
+			local biggerY, smallerY
+			if(casterPosition.x > enemyPosition.x) then 
+				biggerX = casterPosition.x
+				smallerX = enemyPosition.x
+			else 
+				biggerX = enemyPosition.x
+				smallerX = casterPosition.x
+			end
+
+			if(casterPosition.y > enemyPosition.y) then
+				biggerY = casterPosition.y
+				smallerY = enemyPosition.y
+			else
+				biggerY = enemyPosition.y
+				smallerY = casterPosition.y
+			end
+
+			
+			--print("("..smallerX.." - "..biggerX..")^2 + ("..smallerY .." - "..biggerY..")^2")
+			-- Here I calculate the distance from 2 points... It seems to work properly
+			-- and it seems the timers are kinda good, so yeah, I won \o/
+			local distance = math.sqrt(
+					math.pow((smallerX - biggerX), 2) + math.pow((smallerY - biggerY), 2)
+				)
+
+			local stunDelay
+			if(distance >= 1300) then 
+				stunDelay = .75
+			elseif(distance < 1300 and distance >= 900) then 
+					stunDelay = .50
+			elseif(distance < 900) then 
+					stunDelay = .40
+			end
+
+			caster:RemoveAbility(summon)
+
+			caster:AddAbility(toss)
+			caster:FindAbilityByName(toss):SetLevel(level)
+			caster:CastAbilityOnTarget(target, caster:FindAbilityByName(toss), caster:GetPlayerOwnerID())
+
+			Timers:CreateTimer({
+			  	endTime = .15,
+			  	callback = function()
+				  	caster:RemoveAbility(toss)
+
+					caster:AddAbility(summon)
+					caster:FindAbilityByName(summon):SetLevel(level)
+			  	end
+		  	})
+		  	Timers:CreateTimer({
+			  	endTime = stunDelay,
+			  	callback = function()
+				  	keys.target:AddNewModifier(keys.target, nil, "modifier_earthshaker_fissure_stun", { duration = 2 })
+			  	end
+		  	})	
+				
+			
+
 		end
 --END GOLIATH
 

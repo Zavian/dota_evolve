@@ -2,6 +2,7 @@
 "DOTAAbilities"
 {
 	"Version"		"1"
+
 	//=================================================================================================================
 	// empty_spell
 	//=================================================================================================================
@@ -18,63 +19,113 @@
 	//=================================================================================================================
 	// Boulder Throw
 	//=================================================================================================================
-	"boulder_throw"
+	"boulder_throw_rock"
 	{
-		"precache"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"MaxLevel"						"4"
+		"AbilityCastRange"				"1300"
+		"BaseClass" 					"ability_datadriven"
+		"AbilityTextureName"            "boulder_throw"
+		"OnSpellStart"
 		{
-			"particle"					"particles/units/heroes/hero_earth_spirit/espirit_rollingboulder.vpcf"
+			"SpawnUnit"
+			{
+				"UnitName"			"npc_evolve_rock"
+				"UnitCount"			"1"
+				"SpawnRadius"		"100"
+				"Target"
+				{
+					"Center"	"CASTER"
+					"Radius"	"100"
+					"Teams"		"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+					"Types"		"DOTA_UNIT_TARGET_HERO"
+					"Flags"		"DOTA_UNIT_TARGET_FLAG_NOT_ILLUSIONS"
+				}
+				"Duration"		"3"
+			}
+
+			"RunScript"
+			{
+				"ScriptFile"	"scripts/vscripts/datadriven/custom_spells.lua"
+				"Function"		"BoulderThrowRock"
+				"Target"		"TARGET"
+			}
+
+
 		}
+
+	}
+	"boulder_throw_toss"
+	{
 		// General
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"BaseClass"						"tiny_toss"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
-		"AbilityTextureName"            "boulder_throw"
-		"BaseClass"						"ability_datadriven"
-
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityType"					"DOTA_ABILITY_TYPE_BASIC"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"FightRecapLevel"				"1"
+		
 		// Casting
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"1000"
-		"AbilityCastPoint"				"0.5 0.5 0.5 0.5"
-		
+		"AbilityCastRange"				"1300"
+		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
+
 		// Time		
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"10.0"
-		
+		"AbilityCooldown"				"9"
+
 		// Cost
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"90 100 110 120"
-		"OnSpellStart"
-		{				
-			"LinearProjectile"
-	       	{
-	       		"Target"						"POINT"
-	           	"EffectName"                    "particles/units/heroes/hero_earth_spirit/espirit_rollingboulder.vpcf"
-	           	"MoveSpeed"                     "1200"
-	           	"StartPosition"                 "attach_attack1"
-	           	"FixedDistance"                 "500"
-	           	"StartRadius"                   "50"
-	           	"EndRadius"                     "50"
-	           	"TargetTeams"                   "DOTA_UNIT_TARGET_TEAM_ENEMY"
-	           	"TargetTypes"                   "DOTA_UNIT_TARGET_HERO"
-	           	"HasFrontalCone"                "1"
-	           	"ProvidesVision"                "1"
-	           	"VisionRadius"                  "300"
-	       	}
-		}
-		"OnProjectileHit"
+		"AbilityManaCost"				"0 0 0 0"
+
+		// Stats
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityModifierSupportValue"	"0.25"	// generally used for damage only
+
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
 		{
-			"DeleteOnHit"				"1"
-			"Damage"
+			"01"
 			{
-				"Target"		"TARGET"
-				"Type"			"DAMAGE_TYPE_PURE"
-				"Damage"		"300 400 500 600"
+				"var_type"				"FIELD_INTEGER"
+				"duration"				"1.0 1.0 1.0 1.0"
 			}
-			"Stun"
+			"02"
 			{
-				"Target"		"TARGET"
-				"Duration"		"5"		
+				"var_type"				"FIELD_INTEGER"
+				"grab_radius"			"250 250 250 250"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"radius"				"275 275 275 275"
+			}
+			"04"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_damage_pct"		"20 20 20 20"
+			}
+			"05"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"grow_bonus_damage_pct"		"35 50 65 80"
+			}
+			"06"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"tooltip_range"				"1300"
+			}
+			"07"
+			{
+				"var_type"					"FIELD_INTEGER"
+				"toss_damage"				"75 150 225 300"
 			}
 		}
 	}
@@ -1001,20 +1052,9 @@
         // Cost
         //-------------------------------------------------------------------------------------------------------------
         "AbilityManaCost"        "0"
- 
-        "precache"
-        {
-			"particle"				"particles/units/heroes/hero_puck/puck_illusory_orb.vpcf"
-			"particlefile" 			"particles/units/heroes/hero_silencer.pcf"
-        }
 
         "OnSpellStart"
-        {
-	        //"FireSound"
-	        //{
-	        //        "EffectName"            "Ability.PudgeHookCast"
-	        //        "Target"                        "CASTER"
-	        //}	                   
+        {           
 
 	        "SpawnUnit"
 	        {
@@ -1032,48 +1072,6 @@
 	        	}
 	        }
     	}
-
-	    "OnProjectileHitUnit"
-	    {
-	    	"DeleteOnHit"		"0"
-	        "Heal"
-	        {
-	        	"Type"          "DAMAGE_TYPE_MAGICAL"
-	            "HealAmount"    "500"
-	            "Target" 		"TARGET"
-	        }    
-	    }
-
-	    // Special
-	    //-------------------------------------------------------------------------------------------------------------
-	    "AbilitySpecial"
-	    {
-            "01"
-	        {
-	        	"var_type"       	"FIELD_FLOAT"
-	        	"hook_speed"     	"1000.0"
-            }
-            "02"
-            {
-        		"var_type"       	"FIELD_INTEGER"
-        		"hook_width"     	"100"
-            }
-            "03"
-            {
-            	"var_type"       	"FIELD_INTEGER"
-            	"hook_distance"  	"1200"
-            }
-            "04"
-            {
-            	"var_type"       	"FIELD_INTEGER"
-            	"vision_radius"  	"500"
-            }
-            "05"
-            {
-            	"var_type"       	"FIELD_FLOAT"
-            	"vision_duration" 	"4.0 4.0 4.0 4.0"
-            }
-	    }
 	}
 
 

@@ -105,7 +105,7 @@
 		"Ability1"					"fire_breath"								// Ability 1
 		"Ability2"					"leaping_smash_rotation"					// Ability 2
 		"Ability3"					"charge"									// Ability 3
-		"Ability4"					"boulder_throw"								// Ability 4
+		"Ability4"					"boulder_throw_rock"						// Ability 4
 		"Ability5"					"beast_passive"								// Ability 5
 		"Ability6"					"goliath_passive"							// Ability 6
 		//"VisionNighttimeRange"	"1800"										// Range of vision at night time.
