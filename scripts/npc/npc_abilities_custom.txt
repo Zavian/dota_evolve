@@ -131,6 +131,70 @@
 	}
 
 	//=================================================================================================================
+	// Evasion Target
+	//=================================================================================================================
+	"evasion_target"
+	{
+		"precache"
+		{
+			"particle"					"particles/units/heroes/hero_brewmaster/brewmaster_drunken_haze_debuff_mist_b.vpcf"
+		}
+
+		"BaseClass"						"ability_datadriven"
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"					
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityTextureName"			"evasion_target"
+
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target" 			"TARGET"
+				"ModifierName"		"evasion"
+			}
+		}
+
+		"Modifiers"    				// Can be used to create custom modifier. 
+		{  							// There are many snippets that can be expanded in to the modifiers. 
+			"evasion"   	// This should be the name of your modifier
+			{
+				"IsDebuff"					"0"
+				"IsPurgable"				"0"
+				"IsStunDebuff"				"0"
+				"IsHidden"					"0"
+				"EffectName"				"particles/units/heroes/hero_brewmaster/brewmaster_drunken_haze_debuff_mist_b.vpcf"
+				"EffectAttachType"			"attach_hitloc"
+				"OverrideAnimation"			"0"
+				"ThinkInterval"				"10"
+				"Duration"					"%duration"
+				"Properties"
+				{
+					// You may use "modifierProperty" completions within quotes here. Below is an example
+					"MODIFIER_PROPERTY_EVASION_CONSTANT"	"%evasion_bonus"
+				}
+
+			}
+		}
+		
+		"AbilitySpecial"
+		{
+			"01" 
+			{
+				"var_type"		"FIELD_INTEGER"
+				"duration"		"10"
+			}
+			"02"
+			{
+				"var_type"		"FIELD_INTEGER"
+				"evasion_bonus"	"30 40 45 50"
+			}
+		}
+	}
+
+	//=================================================================================================================
 	// Beasts' Passive
 	//=================================================================================================================
 	"beast_passive"
