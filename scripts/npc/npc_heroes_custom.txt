@@ -106,8 +106,8 @@
 		"Ability2"					"leaping_smash_rotation"					// Ability 2
 		"Ability3"					"charge"									// Ability 3
 		"Ability4"					"boulder_throw_rock"						// Ability 4
-		"Ability5"					"beast_passive"								// Ability 5
-		"Ability6"					"goliath_passive"							// Ability 6
+		"Ability5"					"goliath_passive"							// Ability 6
+		"Ability6"					"beast_passive"								// Ability 5
 		//"VisionNighttimeRange"	"1800"										// Range of vision at night time.
 		"ModelScale"				"1.5"										// Scale of the assigned model
 		"MovementSpeed"				"380"
@@ -124,8 +124,8 @@
 		"Ability2"					"banshee_mine"								// Ability 2
 		"Ability3"					"aftershock"								// Ability 3
 		"Ability4"					"vortex"									// Ability 4
-		"Ability5"					"beast_passive"								// Ability 5
-		"Ability6"					"kraken_passive"							// Ability 6
+		"Ability5"					"kraken_passive"							// Ability 6
+		"Ability6"					"beast_passive"								// Ability 5
 		//"VisionNighttimeRange"	"1800"										// Range of vision at night time.
 		"ModelScale"				"1.5"										// Scale of the assigned model
 		"MovementSpeed"				"380"
